@@ -1,11 +1,11 @@
 // src/components/Login.js
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [studentId, setstudentId] = useState('');
-  const [password, setPassword] = useState('');
+  const [studentId, setstudentId] = useState("");
+  const [password, setPassword] = useState("");
 
   // for admin login
   const [loggedIn, setLoggedIn] = useState(false);
@@ -15,12 +15,12 @@ const Login = () => {
     e.preventDefault();
     // Add your logic to handle login authentication here : admin logic has been added.
     // Replace "adminid" and "adminpass" with the actual admin credentials
-    if (studentId === 'adminid' && password === 'adminpass') {
-        setLoggedIn(true);
-        navigate('/admindashboard');
-      } else {
-        alert('Invalid credentials. Please try again.');
-      }
+    if (studentId === "adminid" && password === "adminpass") {
+      setLoggedIn(true);
+      navigate("/adminDashboard");
+    } else {
+      alert("Invalid credentials. Please try again.");
+    }
   };
 
   return (
