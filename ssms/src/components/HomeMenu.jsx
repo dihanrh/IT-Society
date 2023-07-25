@@ -5,6 +5,7 @@ const HomeMenu= () => {
   return (
     <nav>
        <ul>
+        <li><Link to ="/">Home</Link></li>
         <li><a href="#">Notice</a></li>
         <li><a href="#">News</a></li>
         <li><a href="#">Events</a></li>
