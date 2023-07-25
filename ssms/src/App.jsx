@@ -13,7 +13,7 @@ import AdminDashboard from './components/AdminDashboard';
 
 function App() {
   
-
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   return (
     <>
      <Router>
@@ -23,8 +23,19 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeBody />} />
           <Route path="/registration" element={<Registration />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admindashboard" element={<AdminDashboard />} />
+        
+         
+
+          // for admin login
+          <Route
+            path="/login"
+            element={<Login setIsAdminLoggedIn={setIsAdminLoggedIn} />}
+          />
+          {isAdminLoggedIn ? (
+            <Route path="/admindashboard" element={<AdminDashboard />} />
+          ) : null}
+
         </Routes>
         <Footer />
       </div>
