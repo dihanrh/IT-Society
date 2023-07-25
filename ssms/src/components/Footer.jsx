@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Footer = () => {
-  return <footer>This is the footer component</footer>;
+  return ( <footer>Copyright © : Riddle, 2023</footer> );
 };
 
 export default Footer;

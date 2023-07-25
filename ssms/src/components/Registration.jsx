@@ -15,7 +15,7 @@ const Registration = () => {
     // Add your logic to handle form submission and validation here
     // Once the registration is successfully submitted, you may set isApproved to false
     // and show a message indicating that the registration is pending approval
-    
+
   };
 
   return (
