@@ -9,6 +9,8 @@ const Login = () => {
 
   // for admin login
   const [loggedIn, setLoggedIn] = useState(false);
+
+
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
@@ -18,7 +20,11 @@ const Login = () => {
     if (studentId === "adminid" && password === "adminpass") {
       setLoggedIn(true);
       navigate("/adminDashboard");
-    } else {
+    }
+    else if (studentId == "20203038") {  //  studentId.trim() !== ''
+      navigate('/studentDashboard'); // Redirect the student to the dashboard after successful login
+    }
+    else {
       alert("Invalid credentials. Please try again.");
     }
   };

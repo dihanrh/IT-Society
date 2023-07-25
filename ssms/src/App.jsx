@@ -10,9 +10,19 @@ import HomeBody from "./components/HomeBody";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import AdminDashboard from "./components/AdminDashboard";
+import ApproveUsers from "./components/ApproveUsers";
+import StudentDashboard from "./components/StudentDashboard";
 
 function App() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+
+    // Simulate student data
+    const studentData = {  // sample to test
+      name: 'Rakibul Hasan Dihan',
+      studentId: '20203038',
+      semester: '10',
+    };
+
   return (
     <>
       <Router>
@@ -22,7 +32,8 @@ function App() {
           <Routes>
             <Route path="/" element={<HomeBody />} />
             <Route path="/registration" element={<Registration />} />
-            <Route path="/admindashboard" element={<AdminDashboard />} />
+            <Route path="/adminDashboard" element={<AdminDashboard />} />
+            <Route path="/approveUsers" element={<ApproveUsers />} />
             // for admin login
             <Route
               path="/login"
@@ -31,6 +42,20 @@ function App() {
             {isAdminLoggedIn ? (
               <Route path="/adminDashboard" element={<AdminDashboard />} />
             ) : null}
+
+
+            <Route
+              path="/studentDashboard"
+              element={
+                <StudentDashboard
+                  name={studentData.name}
+                  studentId={studentData.studentId}
+                  semester={studentData.semester}
+                />
+              }
+            />
+
+
           </Routes>
           <Footer />
         </div>

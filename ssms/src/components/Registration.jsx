@@ -8,10 +8,14 @@ const Registration = () => {
   const [semester, setSemester] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isApproved, setIsApproved] = useState(false); // check reg approval status
 
   const handleRegister = (e) => {
     e.preventDefault();
     // Add your logic to handle form submission and validation here
+    // Once the registration is successfully submitted, you may set isApproved to false
+    // and show a message indicating that the registration is pending approval
+    
   };
 
   return (

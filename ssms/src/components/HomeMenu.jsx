@@ -31,7 +31,7 @@ const HomeMenu = ({ isAdmin }) => {
           {isAdmin && (
             <>
               <li>
-                <Link to="/pendingRegistrations">Approve Users</Link>
+                <Link to="/approveUsers">Approve Users</Link>
               </li>
               <li>
                 <Link to="/election">Election</Link>
