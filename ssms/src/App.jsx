@@ -15,6 +15,7 @@ import StudentDashboard from "./components/StudentDashboard";
 
 function App() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [isStudentLoggedIn, setIsStudentLoggedIn] = useState(false);
 
     // Simulate student data
     const studentData = {  // sample to test
@@ -28,23 +29,27 @@ function App() {
       <Router>
         <div>
           <Header />
-          <HomeMenu />
+     
+          <HomeMenu isAdminLoggedIn={isAdminLoggedIn} isStudentLoggedIn={isStudentLoggedIn} />
+      
           <Routes>
             <Route path="/" element={<HomeBody />} />
             <Route path="/registration" element={<Registration />} />
-            <Route path="/adminDashboard" element={<AdminDashboard />} />
             <Route path="/approveUsers" element={<ApproveUsers />} />
             // for admin login
             <Route
               path="/login"
-              element={<Login setIsAdminLoggedIn={setIsAdminLoggedIn} />}
+              element={<Login setIsAdminLoggedIn={setIsAdminLoggedIn} setIsStudentLoggedIn={setIsStudentLoggedIn}  />}
             />
+            // for student login
+          
             {isAdminLoggedIn ? (
               <Route path="/adminDashboard" element={<AdminDashboard />} />
             ) : null}
 
 
-            <Route
+          {isStudentLoggedIn ?
+            (<Route
               path="/studentDashboard"
               element={
                 <StudentDashboard
@@ -53,7 +58,7 @@ function App() {
                   semester={studentData.semester}
                 />
               }
-            />
+            />) : null }
 
 
           </Routes>

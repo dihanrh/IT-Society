@@ -19,9 +19,11 @@ const AdminDashboard = () => {
     );
   };
 
+  // pros driling 
+
   return (
     <div>
-      <HomeMenu isAdmin={true} />
+    
       <h2>Admin Dashboard</h2>
     </div>
   );

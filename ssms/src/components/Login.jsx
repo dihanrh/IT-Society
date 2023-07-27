@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({setIsAdminLoggedIn},  {setIsStudentLoggedIn}) => {
   const [studentId, setstudentId] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,10 +19,14 @@ const Login = () => {
     // Replace "adminid" and "adminpass" with the actual admin credentials
     if (studentId === "adminid" && password === "adminpass") {
       setLoggedIn(true);
+      setIsAdminLoggedIn(true) ;
       navigate("/adminDashboard");
     }
     else if (studentId == "20203038") {  //  studentId.trim() !== ''
+      setLoggedIn(true) ;
+      setIsStudentLoggedIn(true) ;
       navigate('/studentDashboard'); // Redirect the student to the dashboard after successful login
+      
     }
     else {
       alert("Invalid credentials. Please try again.");
