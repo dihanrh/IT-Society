@@ -59,7 +59,7 @@ const ApproveUsers = () => {
     <div>
       <h2>Approve Users</h2>
       <ul>
-        {pendingRegistrations.map((reg) => (   // to view sample : samplePendingRegistrations
+        {samplePendingRegistrations.map((reg) => (   // to view sample : samplePendingRegistrations
           <li key={reg.id}>
             <p>Name: {reg.name}</p>
             <p>Student ID: {reg.studentId}</p>

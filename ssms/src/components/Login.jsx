@@ -3,29 +3,30 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = ({setIsAdminLoggedIn},  {setIsStudentLoggedIn}) => {
+const Login = ({setIsAdminLoggedIn , setIsStudentLoggedIn}) => {
   const [studentId, setstudentId] = useState("");
   const [password, setPassword] = useState("");
 
   // for admin login
-  const [loggedIn, setLoggedIn] = useState(false);
+  //const [loggedIn, setLoggedIn] = useState(false);
 
 
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Add your logic to handle login authentication here : admin logic has been added.
-    // Replace "adminid" and "adminpass" with the actual admin credentials
+    // need to add logic to handle login authentication here : admin logic has been added.
+    // need to replace "adminid" and "adminpass" with the actual admin credentials
     if (studentId === "adminid" && password === "adminpass") {
-      setLoggedIn(true);
+     // setLoggedIn(true);
       setIsAdminLoggedIn(true) ;
       navigate("/adminDashboard");
     }
     else if (studentId == "20203038") {  //  studentId.trim() !== ''
-      setLoggedIn(true) ;
+      // setLoggedIn(true) ;
       setIsStudentLoggedIn(true) ;
-      navigate('/studentDashboard'); // Redirect the student to the dashboard after successful login
+
+      navigate('/studentDashboard'); 
       
     }
     else {

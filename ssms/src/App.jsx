@@ -13,6 +13,7 @@ import AdminDashboard from "./components/AdminDashboard";
 import ApproveUsers from "./components/ApproveUsers";
 import StudentDashboard from "./components/StudentDashboard";
 
+
 function App() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [isStudentLoggedIn, setIsStudentLoggedIn] = useState(false);
@@ -30,12 +31,13 @@ function App() {
         <div>
           <Header />
      
+       
           <HomeMenu isAdminLoggedIn={isAdminLoggedIn} isStudentLoggedIn={isStudentLoggedIn} />
-      
           <Routes>
             <Route path="/" element={<HomeBody />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/approveUsers" element={<ApproveUsers />} />
+            
             // for admin login
             <Route
               path="/login"

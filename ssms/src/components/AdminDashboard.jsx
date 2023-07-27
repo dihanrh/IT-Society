@@ -1,7 +1,7 @@
 // src/components/AdminDashboard.js
 
 import React, { useState } from "react";
-import HomeMenu from "./HomeMenu";
+import CreateElection from "./CreateElection";
 
 const AdminDashboard = () => {
   const [pendingRegistrations, setPendingRegistrations] = useState([]);
@@ -25,6 +25,7 @@ const AdminDashboard = () => {
     <div>
     
       <h2>Admin Dashboard</h2>
+     
     </div>
   );
 };
