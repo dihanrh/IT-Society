@@ -2,21 +2,53 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import CandidateForm from "./CandidateForm";
 
 
 // CreateElection Component
 
-const CreateElection = () => {
+const CreateElection = ({ onSaveAndNext }) => {
   const [electionTitle, setElectionTitle] = useState("");
   const [positionName, setPositionName] = useState("");
   const [amountOfCandidates, setAmountOfCandidates] = useState("");
   const [votingDuration, setVotingDuration] = useState("");
+  const [candidateForms, setCandidateForms] = useState([]);
 
   const handleVotingDurationChange = (event) => {
     setVotingDuration(event.target.value);
   };
 
   const handleSaveAndNext = () => {
+
+    const electionData = {
+      electionTitle,
+      positionName,
+      amountOfCandidates,
+      votingDuration,
+      candidates: [],
+    };
+
+    const forms = [];
+    for (let i = 1; i <= 1; i++) {
+      forms.push(<CandidateForm key={i} candidateNumber={i} />);
+      electionData.candidates.push({
+        name: "",
+        semester: "",
+        id: "",
+        cgpa: "",
+        motto:"",
+        photo: "",
+      });
+    }
+
+    setCandidateForms(forms);
+
+    // Call the onSaveAndNext function with the electionData
+    onSaveAndNext(electionData);
+
+
+
+
     // Add validation to check if all text fields are filled before proceeding
     if (electionTitle && positionName && amountOfCandidates && votingDuration) {
       // Save the election information and redirect to the next page
@@ -70,15 +102,22 @@ const CreateElection = () => {
             value={votingDuration}
             onChange={handleVotingDurationChange}
           />
+
+     
           {/* Implement the popup with time selection menu */}
           {/* For now, let's just display the selected value */}
           <div>Selected Duration: {votingDuration}</div>
         </div>
+        
         <button type="button" onClick={handleSaveAndNext}>
           Save and Next
         </button>
       </form>
+
+      {candidateForms}
     </div>
+
+    
   );
 };
 
@@ -136,11 +175,9 @@ const AdminDashboard = () => {
     <div className="adminDiv">
     
       <h2>Admin Dashboard</h2>
-
+    
       <ul className="adminUl">
-          <li className="CreateElectionDropdown">
-         <CreateElectionDropdown/> 
-          </li>
+          
           <li className="currentElections" >
             <Link to="/currentElections">Current Elections</Link>
           </li>
@@ -151,6 +188,14 @@ const AdminDashboard = () => {
             <Link to="/publishResult">Publish Result</Link>
           </li>
         </ul>
+
+   <ul>
+   <li className="CreateElectionDropdown">
+         <CreateElectionDropdown/> 
+          </li>
+
+   </ul>
+    
      
     </div>
   );

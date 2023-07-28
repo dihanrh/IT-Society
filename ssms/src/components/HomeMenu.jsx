@@ -3,42 +3,6 @@ import { Link } from "react-router-dom";
 
 
 
-const ElectionDropdown = () => {
-  // State to manage the visibility of the dropdown
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  // Function to toggle the dropdown
-  const toggleDropdown = () => {
-    setIsDropdownOpen((prevState) => !prevState);
-  };
-
-  return (
-    <div className="dropdown">
-      {/* Election button */}
-      <button onClick={toggleDropdown}>Election</button>
-
-      {/* Dropdown menu */}
-      {isDropdownOpen && (
-        <ul>
-          <li>
-            <Link to="/createElection">Create Election</Link>
-          </li>
-          <li>
-            <Link to="/currentElections">Current Elections</Link>
-          </li>
-          <li>
-            <Link to="/disableEVoting">Disable E-Voting</Link>
-          </li>
-          <li>
-            <Link to="/publishResult">Publish Result</Link>
-          </li>
-        </ul>
-      )}
-    </div>
-  );
-};
-
-
 
 const HomeMenu = ({ isAdminLoggedIn, isStudentLoggedIn }) => {
   return (

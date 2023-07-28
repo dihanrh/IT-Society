@@ -85,7 +85,8 @@ header {
     background-color: rgb(192, 192, 192);
     color: #333;
     padding: 20px;
-    text-align: left;
+    margin: 100px;
+    text-align: center;
   }
 
   .currentElections{
@@ -109,4 +110,19 @@ header {
     padding: 20px;
     text-align: center;
 
+  }
+
+  .candidateForm{
+    margin: 10px;
+    padding:10px auto;
+    text-align: left;
+    
+
+  }
+
+  .candidateDiv{
+    margin: 100px ;
+    padding:100px auto;
+    text-align: left;
+  
   }
