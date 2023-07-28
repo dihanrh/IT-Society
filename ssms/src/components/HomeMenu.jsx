@@ -1,6 +1,44 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+
+
+const ElectionDropdown = () => {
+  // State to manage the visibility of the dropdown
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Function to toggle the dropdown
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prevState) => !prevState);
+  };
+
+  return (
+    <div className="dropdown">
+      {/* Election button */}
+      <button onClick={toggleDropdown}>Election</button>
+
+      {/* Dropdown menu */}
+      {isDropdownOpen && (
+        <ul>
+          <li>
+            <Link to="/createElection">Create Election</Link>
+          </li>
+          <li>
+            <Link to="/currentElections">Current Elections</Link>
+          </li>
+          <li>
+            <Link to="/disableEVoting">Disable E-Voting</Link>
+          </li>
+          <li>
+            <Link to="/publishResult">Publish Result</Link>
+          </li>
+        </ul>
+      )}
+    </div>
+  );
+};
+
+
 
 const HomeMenu = ({ isAdminLoggedIn, isStudentLoggedIn }) => {
   return (
@@ -24,9 +62,7 @@ const HomeMenu = ({ isAdminLoggedIn, isStudentLoggedIn }) => {
               <li>
                 <Link to="/approveUsers">Approve Users</Link>
               </li>
-              <li>
-                <Link to="/election">Election</Link>
-              </li>
+            
               <li>
                 <Link to="/logout">Log out</Link>
               </li>
@@ -51,9 +87,9 @@ const HomeMenu = ({ isAdminLoggedIn, isStudentLoggedIn }) => {
           )}
 
           {/* Show login and registration for non-logged in users */}
-         
-        {/* Non reg User */}
-          {!isAdminLoggedIn &&  !isStudentLoggedIn && (
+
+          {/* Non reg User */}
+          {!isAdminLoggedIn && !isStudentLoggedIn && (
             <>
               <li>
                 <Link to="/registration">Registration</Link>
@@ -63,7 +99,6 @@ const HomeMenu = ({ isAdminLoggedIn, isStudentLoggedIn }) => {
               </li>
             </>
           )}
-      
         </ul>
       </nav>
     </>
