@@ -126,3 +126,46 @@ header {
     text-align: left;
   
   }
+  .login-bg{
+    height: 600px;
+    background-color: red;
+    background-image:linear-gradient(white,red);
+    background-position: center;
+    font-family: sans-serif;
+  }
+  .logo{
+    background-image: url(C:\Users\User\Riddle-1\ssms\src\assets\avatar.png);
+    background-size: cover;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    position: absolute;
+    top: -50px;
+    left: 35%;
+  }
+  
+  .login-box{
+    width: 320px;
+    height: 350px;
+    background: #000000; 
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%);
+    box-sizing: border-box;
+    border-radius: 15px;
+  }
+  .login-box1{
+    padding-top: 40px;
+  }
+  .submit-button{
+    padding-top: 30px;
+    border-radius: 15px;
+  }
+  .submit-button p{
+    font-size: 12px;
+  }
+  .submit-button p:hover{
+    font-size: 13px;
+  }
