@@ -12,19 +12,56 @@ const CreateElection = ({ onSaveAndNext }) => {
   const [positionName, setPositionName] = useState("");
   const [amountOfCandidates, setAmountOfCandidates] = useState("");
   const [votingDuration, setVotingDuration] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [candidateForms, setCandidateForms] = useState([]);
 
   const handleVotingDurationChange = (event) => {
     setVotingDuration(event.target.value);
   };
 
+
+  const handleStartTimeChange = (event) => {
+    setStartTime(event.target.value);
+  };
+
+  const handleEndTimeChange = (event) => {
+    setEndTime(event.target.value);
+  };
+
+  // Function to calculate the difference between start time and end time
+  const calculateTimeDifference = () => {
+    if (startTime && endTime) {
+      const start = new Date(startTime);
+      const end = new Date(endTime);
+      const currentTime = new Date() ; 
+      const timeDifference = end - start;
+      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+      if (timeDifference <= 0 || start < currentTime)
+      {
+        // need to add "SaveAndNext" sate/logic  to deactive it
+        return "Error in the time selection"
+      }
+      else
+      return "Duration : " + `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    }
+    return "";
+  };
+
   const handleSaveAndNext = () => {
+     
+
 
     const electionData = {
       electionTitle,
       positionName,
       amountOfCandidates,
       votingDuration,
+      startTime,
       candidates: [],
     };
 
@@ -46,8 +83,7 @@ const CreateElection = ({ onSaveAndNext }) => {
     // Call the onSaveAndNext function with the electionData
     onSaveAndNext(electionData);
 
-
-
+    
 
     // Add validation to check if all text fields are filled before proceeding
     if (electionTitle && positionName && amountOfCandidates && votingDuration) {
@@ -96,17 +132,27 @@ const CreateElection = ({ onSaveAndNext }) => {
           />
         </div>
         <div>
-          <label>Voting Duration:</label>
+          <label>Starting Time:</label> 
           <input
-            type="text"
-            value={votingDuration}
-            onChange={handleVotingDurationChange}
+            type="datetime-local"
+            value={startTime}
+            onChange={handleStartTimeChange}
           />
+        </div>
 
-     
-          {/* Implement the popup with time selection menu */}
-          {/* For now, let's just display the selected value */}
-          <div>Selected Duration: {votingDuration}</div>
+        <div>
+          <label>Ending Time:</label> 
+          <input
+            type="datetime-local"
+            value={endTime}
+            onChange={handleEndTimeChange}
+          />
+        </div>
+
+
+
+        <div>
+           {calculateTimeDifference()}
         </div>
         
         <button type="button" onClick={handleSaveAndNext}>
