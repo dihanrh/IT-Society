@@ -104,66 +104,69 @@ const CreateElection = ({ onSaveAndNext }) => {
   };
 
   return (
-    <div>
-      <h2>Election Information</h2>
-      <form>
-        <div>
-          <label>Election Title:</label>
-          <input
-            type="text"
-            value={electionTitle}
-            onChange={(e) => setElectionTitle(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Position Name:</label>
-          <input
-            type="text"
-            value={positionName}
-            onChange={(e) => setPositionName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Amount of Candidates:</label>
-          <input
-            type="number"
-            value={amountOfCandidates}
-            onChange={(e) => setAmountOfCandidates(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Starting Time:</label> 
-          <input
-            type="datetime-local"
-            value={startTime}
-            onChange={handleStartTimeChange}
-          />
-        </div>
+    <>
+      <div className="InputElectionInfo">
+        <h2>Election Information</h2>
+        <form>
+          <div>
+            <label>Election Title:</label>
+            <input
+              type="text"
+              value={electionTitle}
+              onChange={(e) => setElectionTitle(e.target.value)}
+            />
+          </div>
+          <div>
+            <label>Position Name:</label>
+            <input
+              type="text"
+              value={positionName}
+              onChange={(e) => setPositionName(e.target.value)}
+            />
+          </div>
+          <div>
+            <label>Amount of Candidates:</label>
+            <input
+              type="number"
+              value={amountOfCandidates}
+              onChange={(e) => setAmountOfCandidates(e.target.value)}
+            />
+          </div>
+          <div>
+            <label>Starting Time:</label>
+            <input
+              type="datetime-local"
+              value={startTime}
+              onChange={handleStartTimeChange}
+            />
+          </div>
 
-        <div>
-          <label>Ending Time:</label> 
-          <input
-            type="datetime-local"
-            value={endTime}
-            onChange={handleEndTimeChange}
-          />
-        </div>
+          <div>
+            <label>Ending Time:</label>
+            <input
+              type="datetime-local"
+              value={endTime}
+              onChange={handleEndTimeChange}
+            />
+          </div>
+          <button type="button" onClick={handleSaveAndNext}>
+            Save and Next
+          </button>
+        </form>
+      </div>
 
+      <div className="ShowElectionInfo">
+        <h2>Election Information</h2>
+        <p>Election Title: {electionTitle}</p>
+        <p>Position Name: {positionName}</p>
+        <p>Amount of Candidates: {amountOfCandidates}</p>
+        <p>Starting Time :{startTime}</p>
+        <p>Ending Time :{endTime}</p>
+        <p>Duration : {calculateTimeDifference()}</p>
+      </div>
 
-
-        <div>
-           {calculateTimeDifference()}
-        </div>
-        
-        <button type="button" onClick={handleSaveAndNext}>
-          Save and Next
-        </button>
-      </form>
-
-      {candidateForms}
-    </div>
-
-    
+      <div>{candidateForms}</div>
+    </>
   );
 };
 
