@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import CandidateForm from "./CandidateForm";
 
-
 // CreateElection Component
 
 const CreateElection = ({ onSaveAndNext }) => {
@@ -15,11 +14,16 @@ const CreateElection = ({ onSaveAndNext }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [candidateForms, setCandidateForms] = useState([]);
-
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isNotFilled, setIsNotFilled] = useState(false);
+  const forms = [];
+ // Function to check if the number of candidates is the same as amountOfCandidates
+  //const isCandidateListComplete = candidateForms.length === Number(amountOfCandidates);
+  const testX   = 0 ;
+  console.log("hits   : "+  forms.length)
   const handleVotingDurationChange = (event) => {
     setVotingDuration(event.target.value);
   };
-
 
   const handleStartTimeChange = (event) => {
     setStartTime(event.target.value);
@@ -34,27 +38,32 @@ const CreateElection = ({ onSaveAndNext }) => {
     if (startTime && endTime) {
       const start = new Date(startTime);
       const end = new Date(endTime);
-      const currentTime = new Date() ; 
+      const currentTime = new Date();
       const timeDifference = end - start;
       const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      const hours = Math.floor(
+        (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+      );
       const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-      if (timeDifference <= 0 || start < currentTime)
-      {
+      if (timeDifference <= 0 || start < currentTime) {
         // need to add "SaveAndNext" sate/logic  to deactive it
-        return "Error in the time selection"
-      }
-      else
-      return "Duration : " + `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        return "Error in the time selection";
+      } else
+        return (
+          "Duration : " +
+          `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`
+        );
     }
     return "";
   };
 
-  const handleSaveAndNext = () => {
-     
 
+  const handleSaveAndNext = () => {
+    setIsSubmitted(true);
 
     const electionData = {
       electionTitle,
@@ -64,29 +73,28 @@ const CreateElection = ({ onSaveAndNext }) => {
       startTime,
       candidates: [],
     };
-
-    const forms = [];
-    for (let i = 1; i <= 1; i++) {
-      forms.push(<CandidateForm key={i} candidateNumber={i} />);
+    
+   
+   
+    forms.push(<CandidateForm key={0} candidateNumber={0} />);
       electionData.candidates.push({
         name: "",
         semester: "",
         id: "",
         cgpa: "",
-        motto:"",
+        motto: "",
         photo: "",
       });
-    }
-
+  
     setCandidateForms(forms);
 
     // Call the onSaveAndNext function with the electionData
-    onSaveAndNext(electionData);
-
-    
+        onSaveAndNext(electionData);
 
     // Add validation to check if all text fields are filled before proceeding
-    if (electionTitle && positionName && amountOfCandidates && votingDuration) {
+    if (electionTitle && positionName && amountOfCandidates && startTime && endTime ) {
+    setIsNotFilled(true) ;
+    
       // Save the election information and redirect to the next page
       // For now, let's just console.log the data
       console.log("Election Title:", electionTitle);
@@ -101,76 +109,84 @@ const CreateElection = ({ onSaveAndNext }) => {
     } else {
       alert("Please fill all the fields before proceeding.");
     }
+
+    
   };
 
   return (
     <>
-      <div className="InputElectionInfo">
-        <h2>Election Information</h2>
-        <form>
-          <div>
-            <label>Election Title:</label>
-            <input
-              type="text"
-              value={electionTitle}
-              onChange={(e) => setElectionTitle(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Position Name:</label>
-            <input
-              type="text"
-              value={positionName}
-              onChange={(e) => setPositionName(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Amount of Candidates:</label>
-            <input
-              type="number"
-              value={amountOfCandidates}
-              onChange={(e) => setAmountOfCandidates(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Starting Time:</label>
-            <input
-              type="datetime-local"
-              value={startTime}
-              onChange={handleStartTimeChange}
-            />
-          </div>
+      {isSubmitted ? (
+        <div className="ShowElectionInfo">
+          <h2>Election Information</h2>
+          <p>Election Title: {electionTitle}</p>
+          <p>Position Name: {positionName}</p>
+          <p>Amount of Candidates: {amountOfCandidates}</p>
+          <p>Starting Time :{startTime}</p>
+          <p>Ending Time :{endTime}</p>
+          <p>Duration : {calculateTimeDifference()}</p>
+        </div>
+      ) : (
+        <div className="InputElectionInfo">
+          <h2>Election Information</h2>
+          <form>
+            <div>
+              <label>Election Title:</label>
+              <input
+                type="text"
+                value={electionTitle}
+                onChange={(e) => setElectionTitle(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Position Name:</label>
+              <input
+                type="text"
+                value={positionName}
+                onChange={(e) => setPositionName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Amount of Candidates:</label>
+              <input
+                type="number"
+                value={amountOfCandidates}
+                onChange={(e) => setAmountOfCandidates(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Starting Time:</label>
+              <input
+                type="datetime-local"
+                value={startTime}
+                onChange={handleStartTimeChange}
+              />
+            </div>
 
-          <div>
-            <label>Ending Time:</label>
-            <input
-              type="datetime-local"
-              value={endTime}
-              onChange={handleEndTimeChange}
-            />
-          </div>
-          <button type="button" onClick={handleSaveAndNext}>
-            Save and Next
-          </button>
-        </form>
-      </div>
-
-      <div className="ShowElectionInfo">
-        <h2>Election Information</h2>
-        <p>Election Title: {electionTitle}</p>
-        <p>Position Name: {positionName}</p>
-        <p>Amount of Candidates: {amountOfCandidates}</p>
-        <p>Starting Time :{startTime}</p>
-        <p>Ending Time :{endTime}</p>
-        <p>Duration : {calculateTimeDifference()}</p>
-      </div>
+            <div>
+              <label>Ending Time:</label>
+              <input
+                type="datetime-local"
+                value={endTime}
+                onChange={handleEndTimeChange}
+              />
+            </div>
+            <button type="button" onClick={handleSaveAndNext}>
+              Save and Next
+            </button>
+          </form>
+        </div>
+      )}
 
       <div>{candidateForms}</div>
+      <div>
+
+         {/* Render "Final Save and Proceed" button if the candidate list is complete */}
+    
+
+      </div>
     </>
   );
 };
-
-
 
 // Clicking on "Create Election" will call "CreateElection" component
 
@@ -192,7 +208,7 @@ const CreateElectionDropdown = () => {
       {isDropdownOpen && (
         <ul>
           <li>
-            <CreateElection/>
+            <CreateElection />
           </li>
         </ul>
       )}
@@ -200,14 +216,11 @@ const CreateElectionDropdown = () => {
   );
 };
 
-
-
 const AdminDashboard = () => {
   const [pendingRegistrations, setPendingRegistrations] = useState([]);
 
   // Replace this with actual logic to fetch pending registrations from the server
   // For demonstration purposes, we are using a sample array
-  
 
   const handleApproval = (id) => {
     // Add your logic to approve the registration with the given ID
@@ -218,34 +231,29 @@ const AdminDashboard = () => {
     );
   };
 
-  // pros driling 
+  // pros driling
 
   return (
     <div className="adminDiv">
-    
       <h2>Admin Dashboard</h2>
-    
+
       <ul className="adminUl">
-          
-          <li className="currentElections" >
-            <Link to="/currentElections">Current Elections</Link>
-          </li>
-          <li className="disableEVoting">
-            <Link to="/disableEVoting">Disable E-Voting</Link>
-          </li>
-          <li className="publishResult">
-            <Link to="/publishResult">Publish Result</Link>
-          </li>
-        </ul>
+        <li className="currentElections">
+          <Link to="/currentElections">Current Elections</Link>
+        </li>
+        <li className="disableEVoting">
+          <Link to="/disableEVoting">Disable E-Voting</Link>
+        </li>
+        <li className="publishResult">
+          <Link to="/publishResult">Publish Result</Link>
+        </li>
+      </ul>
 
-   <ul>
-   <li className="CreateElectionDropdown">
-         <CreateElectionDropdown/> 
-          </li>
-
-   </ul>
-    
-     
+      <ul>
+        <li className="CreateElectionDropdown">
+          <CreateElectionDropdown />
+        </li>
+      </ul>
     </div>
   );
 };
