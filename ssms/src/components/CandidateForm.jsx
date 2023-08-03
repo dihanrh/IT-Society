@@ -1,6 +1,7 @@
 // src/components/CandidateForm.js
 
 import React, { useState } from "react";
+import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
 
 const CandidateForm = ({ candidateNumber }) => {
     const [candidates, setCandidates] = useState([]);
@@ -16,14 +17,16 @@ const CandidateForm = ({ candidateNumber }) => {
       setSelectedPicture(URL.createObjectURL(event.target.files[0]));
     };
   
-    const handleSaveAndProceed = () => {
+
+    // 1. config api endpoint
+    const handleSaveAndProceed = async () => {
       if (candidateName && candidateId && currentSemester && currentCGPA && motto) {
         // Check if the candidate is eligible based on CGPA
         if (parseFloat(currentCGPA) <= 2.56) {
           setIsEligible(false);
           return;
         }
-  
+    
         // Save candidate information and proceed
         const newCandidate = {
           name: candidateName,
@@ -33,9 +36,31 @@ const CandidateForm = ({ candidateNumber }) => {
           motto: motto,
           picture: selectedPicture,
         };
-  
+    
+        // Make an API call to save the candidate data
+        try {
+          const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.CANDIDATES}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newCandidate),
+          });
+    
+          if (response.ok) {
+            // Candidate data saved successfully
+            // ... perform any additional actions ...
+          } else {
+            // Handle error
+            console.error("Failed to save candidate data");
+          }
+        } catch (error) {
+          console.error("An error occurred:", error);
+        }
+    
+        // Update the list of candidates in the state
         setCandidates((prevCandidates) => [...prevCandidates, newCandidate]);
-  
+    
         // Reset input fields and selected picture
         setCandidateName("");
         setCandidateId("");
@@ -47,6 +72,7 @@ const CandidateForm = ({ candidateNumber }) => {
         alert("Please fill all the fields before proceeding.");
       }
     };
+    
   
     return (
       <div className="candidateDiv">

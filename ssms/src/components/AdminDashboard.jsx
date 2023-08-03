@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import CandidateForm from "./CandidateForm";
 
+import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
+
+
 // CreateElection Component
 
 const CreateElection = ({ onSaveAndNext }) => {
@@ -19,8 +22,7 @@ const CreateElection = ({ onSaveAndNext }) => {
   const forms = [];
  // Function to check if the number of candidates is the same as amountOfCandidates
   //const isCandidateListComplete = candidateForms.length === Number(amountOfCandidates);
-  const testX   = 0 ;
-  console.log("hits   : "+  forms.length)
+  
   const handleVotingDurationChange = (event) => {
     setVotingDuration(event.target.value);
   };
@@ -222,10 +224,32 @@ const AdminDashboard = () => {
   // Replace this with actual logic to fetch pending registrations from the server
   // For demonstration purposes, we are using a sample array
 
-  const handleApproval = (id) => {
-    // Add your logic to approve the registration with the given ID
-    // You may need to make an API call to update the status on the server
-    // For this example, we will simply remove the registration from the list
+
+
+  // 1. config - API endpoint
+  const handleApproval = async (id) => {
+    try {
+      // Make an API call to update the registration status
+      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATIONS}/${id}`, {
+        method: "PATCH", // Use PATCH for updating existing data
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "approved" }), // Update status as needed
+      });
+  
+      if (response.ok) {
+        // Registration status updated successfully
+        // ... perform any additional actions ...
+      } else {
+        // Handle error
+        console.error("Failed to update registration status");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  
+    // Remove the registration from the list
     setPendingRegistrations((prevRegistrations) =>
       prevRegistrations.filter((reg) => reg.id !== id)
     );

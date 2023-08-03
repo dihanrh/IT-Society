@@ -1,6 +1,8 @@
 // src/components/Registration.js
 
 import React, { useState } from 'react';
+import { API_BASE_URL, API_ENDPOINTS } from "../utils/config"; 
+
 
 const Registration = () => {
   const [name, setName] = useState('');
@@ -10,12 +12,40 @@ const Registration = () => {
   const [password, setPassword] = useState('');
   const [isApproved, setIsApproved] = useState(false); // check reg approval status
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     // Add your logic to handle form submission and validation here
     // Once the registration is successfully submitted, you may set isApproved to false
     // and show a message indicating that the registration is pending approval
+  
+    // Make an API call to the registration endpoint
+    try {
+      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATION}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          studentId,
+          semester,
+          email,
+          password,
+        }), // Send registration data
+      });
 
+      console.log("Response:", response); 
+  
+      if (response.ok) {
+        
+        console.error("Registration successful");
+      } else {
+        // Handle registration error
+        console.error("Failed to register");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   };
 
   return (

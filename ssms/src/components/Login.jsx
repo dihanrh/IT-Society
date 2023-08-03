@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
 
 const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
   const [studentId, setstudentId] = useState("");
