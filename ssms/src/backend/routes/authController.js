@@ -1,12 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const Registration = require('../models/registration'); 
+const Registration = require('../models/registration');
 const router = express.Router();
 
 // Route for user registration
 router.post('/registration', async (req, res) => {
   try {
-    const { name, studentId, semester, email, password } = req.body;
+    const { name, studentId, semester, email, password, isApproved } = req.body;
 
     // Check if a user with the same email already exists
     const existingUser = await Registration.findOne({ email });
@@ -24,6 +24,7 @@ router.post('/registration', async (req, res) => {
       semester,
       email,
       password: hashedPassword,
+      isApproved,
     });
 
     // Save the new registration document to the database
@@ -39,15 +40,26 @@ router.post('/registration', async (req, res) => {
 });
 
 
+// Route to fetch pending registrations with isApproved query parameter
+router.get('/registration/', async (req, res) => {
+  const { isApproved } = req.query;
 
-
+  try {
+    const registrations = await Registration.find({ isApproved: isApproved === 'false' ? false : true });
+    res.status(200).json(registrations);
+  } catch (error) {
+    console.error('Error fetching registrations:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 // Update registration approval
 router.put('/registration/:id/approve', async (req, res) => {
   const { id } = req.params;
+  console.log('Received PUT request to approve registration for ID:', id);
   try {
     const updatedRegistration = await Registration.findByIdAndUpdate(
-      id,
-      { __v: 1 }, // Set __v to 1 to mark as approved
+      mongoose.Types.ObjectId(id),
+      { isApproved: true }, // Update isApproved to true to mark as approved
       { new: true }
     );
     res.status(200).json(updatedRegistration);

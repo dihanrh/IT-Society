@@ -10,7 +10,7 @@ const authRouter = require('./routes/authController');
 
 const app = express();
 const PORT = process.env.PORT || 3000 ;
-const MONGODB_URI = 'mongodb://127.0.0.1:27017/electionDB';
+const MONGODB_URI = 'mongodb://127.0.0.1:27017/registrationDB';
 
 
 
@@ -41,10 +41,10 @@ app.listen(PORT, () => {
 
 
   // Connect to the MongoDB database -  registrationDB
-mongoose.connect('mongodb://127.0.0.1:27017/registrationDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+  mongoose.connect('mongodb://127.0.0.1:27017/registrationDB', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 
 
 

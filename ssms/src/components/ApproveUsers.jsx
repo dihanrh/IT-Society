@@ -6,21 +6,31 @@ const ApproveUsers = () => {
   const [approvedRegistrations, setApprovedRegistrations] = useState([]);
 
   useEffect(() => {
-    // Fetch pending registrations from the API where __v = 0
-    fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATION}?__v=0`)
+    // Fetch pending registrations from the API where isApproved is false
+    fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATION}?isApproved=false`)
       .then(response => response.json())
       .then(data => setPendingRegistrations(data))
       .catch(error => console.error('Error fetching pending registrations:', error));
   }, []);
 
+  useEffect(() => {
+    // Fetch approved registrations from the API where isApproved is true
+    fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATION}?isApproved=true`)
+      .then(response => response.json())
+      .then(data => setApprovedRegistrations(data))
+      .catch(error => console.error('Error fetching pending registrations:', error));
+  }, []);
+
+
   const handleApproval = (id) => {
+    
     // Send an API request to mark the registration as approved
-    fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATION}/${id}`, {
-      method: 'PUT', // Use PUT request to update the registration
+    fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATIONa}/${id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ __v: 1 }), // Update __v to 1 to mark as approved
+      body: JSON.stringify({ isApproved: true }), // Update isApproved to true to mark as approved
     })
       .then(response => response.json())
       .then(data => {
@@ -29,6 +39,7 @@ const ApproveUsers = () => {
         if (approvedRegistration) {
           setPendingRegistrations(prevRegistrations =>
             prevRegistrations.filter(reg => reg.id !== id)
+            
           );
           setApprovedRegistrations(prevRegistrations => [...prevRegistrations, approvedRegistration]);
         }
@@ -47,6 +58,8 @@ const ApproveUsers = () => {
               <p>Student ID: {reg.studentId}</p>
               <p>Semester: {reg.semester}</p>
               <p>Email: {reg.email}</p>
+              <p>MID : {reg._id.toString()}</p>
+            
             </li>
           ))}
         </ul>
@@ -60,7 +73,7 @@ const ApproveUsers = () => {
               <p>Student ID: {reg.studentId}</p>
               <p>Semester: {reg.semester}</p>
               <p>Email: {reg.email}</p>
-              <button onClick={() => handleApproval(reg.id)}>Approve</button>
+              <button onClick={() => handleApproval(reg._id.toString())}>Approve</button>
             </li>
           ))}
         </ul>

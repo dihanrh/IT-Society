@@ -31,6 +31,7 @@ const Registration = () => {
           semester,
           email,
           password,
+          isApproved,
         }), // Send registration data
       });
 
