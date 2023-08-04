@@ -23,7 +23,7 @@ const CandidateList = ({ candidates, selectedCandidate, onSelectCandidate }) => 
           <p>ID: {candidate.id}</p>
           <p>Motto: {candidate.motto}</p>
         </div>
-        <label>
+        <label className='voteButton'>
           <input
             type="radio"
             name="candidate"
@@ -164,6 +164,8 @@ const VotingPage = () => {
       {election && election.positions.map((position) => (
         <div key={position._id} className="position">
           <h2>{position.name}</h2>
+          <div className='CandidateList'>
+
           <CandidateList
             candidates={position.candidates}
             selectedCandidate={selectedCandidates[position._id]}
@@ -171,6 +173,9 @@ const VotingPage = () => {
               handleSelectCandidate(position._id, candidateId)
             }
           />
+
+
+          </div>
         </div>
       ))}
 
