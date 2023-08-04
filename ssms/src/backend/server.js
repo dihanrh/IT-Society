@@ -7,6 +7,7 @@ const authRouter = require('./routes/authController');
 
 
 
+
 const app = express();
 const PORT = process.env.PORT || 3000 ;
 const MONGODB_URI = 'mongodb://127.0.0.1:27017/electionDB';
@@ -25,11 +26,7 @@ app.use(bodyParser.json());
 app.use(electionRoutes);
 app.use('/api', authRouter);
 
-  // Connect to the MongoDB database -  registrationDB
-mongoose.connect('mongodb://127.0.0.1:27017/registrationDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+
 // Check for successful connection
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
@@ -40,3 +37,14 @@ db.once('open', () => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+  // Connect to the MongoDB database -  registrationDB
+mongoose.connect('mongodb://127.0.0.1:27017/registrationDB', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+
+

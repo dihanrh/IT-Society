@@ -1,8 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const Registration = require('../models/registration'); 
-
-
 const router = express.Router();
 
 // Route for user registration
@@ -39,5 +37,25 @@ router.post('/registration', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+
+
+
+// Update registration approval
+router.put('/registration/:id/approve', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedRegistration = await Registration.findByIdAndUpdate(
+      id,
+      { __v: 1 }, // Set __v to 1 to mark as approved
+      { new: true }
+    );
+    res.status(200).json(updatedRegistration);
+  } catch (error) {
+    console.error('Error updating registration approval:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 
 module.exports = router;

@@ -12,6 +12,7 @@ import Login from "./components/Login";
 import AdminDashboard from "./components/AdminDashboard";
 import ApproveUsers from "./components/ApproveUsers";
 import StudentDashboard from "./components/StudentDashboard";
+import VotingPage  from "./components/VotingPage";
 
 
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/" element={<HomeBody />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/approveUsers" element={<ApproveUsers />} />
+            <Route path="/votingpage" element={<VotingPage/>}/>
             
             // for admin login
             <Route
