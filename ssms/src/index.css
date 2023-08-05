@@ -132,7 +132,7 @@
   .login-bg{
     height: 600px;
     background-color: red;
-    background-image:linear-gradient(white,red);
+    background-image:linear-gradient(white,rgb(255, 249, 223));
     background-position: center;
     font-family: sans-serif;
   }
@@ -150,7 +150,7 @@
   .login-box{
     width: 320px;
     height: 350px;
-    background: #000000; 
+    background: #c6c6c6; 
     color: #fff;
     top: 50%;
     left: 50%;
