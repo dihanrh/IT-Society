@@ -71,5 +71,31 @@ router.put('/registration/:id/', async (req, res) => {
   }
 });
 
+// Route for user login and authentication
+router.post('/login', async (req, res) => {
+  try {
+    const { studentId, password } = req.body;
+    console.log('Received login request for studentId:', studentId);
+    // Find the user by studentId
+    const user = await Registration.findOne({ studentId });
+
+    // If the user doesn't exist or the password is incorrect, return unauthorized
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    // Check if the user is approved
+    if (!user.isApproved) {
+      return res.status(403).json({ message: 'User is not approved. Please wait for approval.' });
+    }
+
+    // If everything is valid, send back the user data
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 
 module.exports = router;

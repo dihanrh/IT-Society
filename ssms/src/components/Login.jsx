@@ -13,24 +13,43 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
 
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // need to add logic to handle login authentication here : admin logic has been added.
-    // need to replace "adminid" and "adminpass" with the actual admin credentials
-    if (studentId === "adminid" && password === "adminpass") {
-      // setLoggedIn(true);
-      setIsAdminLoggedIn(true);
-      navigate("/adminDashboard");
-    } else if (studentId == "20203038") {
-      //  studentId.trim() !== ''
-      // setLoggedIn(true) ;
-      setIsStudentLoggedIn(true);
-
-      navigate("/studentDashboard");
-    } else {
-      alert("Invalid credentials. Please try again.");
+  
+    try {
+      // Make an API request to authenticate the user
+      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.LOGIN}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ studentId, password }),
+      });
+  
+      if (response.ok) {
+        const userData = await response.json();
+  
+        // Check if the user is approved
+        if (userData.isApproved) {
+          if (studentId === 'adminid') {
+            setIsAdminLoggedIn(true);
+            navigate('/adminDashboard');
+          } else {
+            setIsStudentLoggedIn(true);
+            navigate('/studentDashboard');
+          }
+        } else {
+          alert('User is not approved. Please wait for approval.');
+        }
+      } else {
+        alert('Invalid credentials. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      alert('An error occurred. Please try again later.');
     }
   };
+  
 
   return (
     <div className="login-bg">
