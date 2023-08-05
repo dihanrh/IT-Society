@@ -5,8 +5,8 @@ const API_BASE_URL = "http://localhost:3000/api"; // backend url
 const API_ENDPOINTS = {
   CANDIDATES: "/candidates",
   LOGIN: "/login", 
-  REGISTRATION: "/registration/",
-  REGISTRATIONa: "/registration/:id/approve"
+  REGISTRATION: "/registration",
+ // REGISTRATIONa: "/registration/:id/approve"
 
   // remaining
 };

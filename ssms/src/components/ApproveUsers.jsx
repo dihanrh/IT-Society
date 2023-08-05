@@ -25,7 +25,7 @@ const ApproveUsers = () => {
   const handleApproval = (id) => {
     
     // Send an API request to mark the registration as approved
-    fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATIONa}/${id}`, {
+    fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATION}/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const Registration = require('../models/registration');
 const router = express.Router();
+const mongoose = require('mongoose');
 
 // Route for user registration
 router.post('/registration', async (req, res) => {
@@ -53,12 +54,13 @@ router.get('/registration/', async (req, res) => {
   }
 });
 // Update registration approval
-router.put('/registration/:id/approve', async (req, res) => {
+router.put('/registration/:id/', async (req, res) => {
   const { id } = req.params;
   console.log('Received PUT request to approve registration for ID:', id);
   try {
     const updatedRegistration = await Registration.findByIdAndUpdate(
-      mongoose.Types.ObjectId(id),
+      id, 
+      //mongoose.Types.ObjectId(id),
       { isApproved: true }, // Update isApproved to true to mark as approved
       { new: true }
     );
