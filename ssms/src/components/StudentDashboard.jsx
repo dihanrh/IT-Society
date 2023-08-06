@@ -1,19 +1,19 @@
 // src/components/StudentDashboard.js
 
-import React from 'react';
-import HomeMenu from './HomeMenu';
 
-const StudentDashboard = ({ name, studentId, semester }) => {
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+
+const StudentDashboard = () => {
+  const location = useLocation();
+  const { name, studentId, semester } = location.state || {};
+
   return (
     <div>
-     {/*  <HomeMenu isStudent={true} /> */}
-
-
       <h2>Student Dashboard</h2>
       <p>Name: {name}</p>
       <p>Student ID: {studentId}</p>
       <p>Semester: {semester}</p>
-      {/* You can add more information or components specific to the student dashboard */}
     </div>
   );
 };

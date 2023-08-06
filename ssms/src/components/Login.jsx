@@ -7,6 +7,7 @@ import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
 const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
   const [studentId, setstudentId] = useState("");
   const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState(null); // Store user data
 
   // for admin login
   //const [loggedIn, setLoggedIn] = useState(false);
@@ -36,7 +37,13 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
             navigate('/adminDashboard');
           } else {
             setIsStudentLoggedIn(true);
-            navigate('/studentDashboard');
+            navigate('/studentDashboard', {
+              state: {
+                name: userData.name,
+                studentId: userData.studentId,
+                semester: userData.semester,
+              },
+            });
           }
         } else {
           alert('User is not approved. Please wait for approval.');

@@ -57,11 +57,7 @@ function App() {
             (<Route
               path="/studentDashboard"
               element={
-                <StudentDashboard
-                  name={studentData.name}
-                  studentId={studentData.studentId}
-                  semester={studentData.semester}
-                />
+                <StudentDashboard />
               }
             />) : null }
 
