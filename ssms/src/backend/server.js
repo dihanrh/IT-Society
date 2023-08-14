@@ -2,10 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const electionRoutes = require('./routes/electionRoutes');
 const authRouter = require('./routes/authController');
 
-
+ // Connect to the MongoDB database -  registrationDB
+ mongoose.connect('mongodb://127.0.0.1:27017/registrationDB', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 
 const app = express();
@@ -23,7 +26,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(electionRoutes);
 app.use('/api', authRouter);
 
 
@@ -40,11 +42,7 @@ app.listen(PORT, () => {
 
 
 
-  // Connect to the MongoDB database -  registrationDB
-  mongoose.connect('mongodb://127.0.0.1:27017/registrationDB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+ 
 
 
 

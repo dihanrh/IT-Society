@@ -4,16 +4,19 @@ const electionSchema = new mongoose.Schema({
   electionTitle: String,
   positionName: String,
   amountOfCandidates: Number,
-  votingDuration: String,
   startTime: Date,
+  endTime: Date,
+  votingDuration: String,
+  isRunning : Boolean,
   candidates: [
     {
       name: String,
-      semester: String,
       id: String,
+      semester: String,
       cgpa: String,
       motto: String,
       photo: String,
+      voteCounter : Number,
     },
   ],
 });

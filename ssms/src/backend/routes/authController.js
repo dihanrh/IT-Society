@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const Registration = require('../models/registration');
+const Election = require('../models/Election');
 const router = express.Router();
 const mongoose = require('mongoose');
 
@@ -96,6 +97,33 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+
+
+// Route to create a new election
+router.post('/candidates', async (req, res) => {
+  console.log("hits to create election authC") ;
+  try {
+    const newElection = req.body; // Election data from the request body
+    const createdElection = await Election.create(newElection);
+    res.json(createdElection);
+  } catch (error) {
+    console.log("hits to catch") ;
+    res.status(500).json({ error: 'Failed to create election' });
+  }
+});
+
+// Route to get all elections
+router.get('/candidates', async (req, res) => {
+  console.log("hits to get election authC") ;
+  try {
+    const elections = await Election.find();
+    res.json(elections);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch elections' });
+  }
+});
+
 
 
 module.exports = router;

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
 
-const CandidateForm = ({ candidateNumber }) => {
+const CandidateForm = () => {
     const [candidates, setCandidates] = useState([]);
     const [candidateName, setCandidateName] = useState("");
     const [candidateId, setCandidateId] = useState("");
@@ -12,14 +12,19 @@ const CandidateForm = ({ candidateNumber }) => {
     const [motto, setMotto] = useState("");
     const [selectedPicture, setSelectedPicture] = useState(null);
     const [isEligible, setIsEligible] = useState(true);
-  
+    let  countCandidate  = 0 ;
     const handleChoosePicture = (event) => {
       setSelectedPicture(URL.createObjectURL(event.target.files[0]));
     };
   
 
     // 1. config api endpoint
-    const handleSaveAndProceed = async () => {
+    const handleSaveAndProceed = () => {
+
+      countCandidate ++ ;
+      console.log("Count : ", countCandidate)
+
+      
       if (candidateName && candidateId && currentSemester && currentCGPA && motto) {
         // Check if the candidate is eligible based on CGPA
         if (parseFloat(currentCGPA) <= 2.56) {
@@ -36,28 +41,8 @@ const CandidateForm = ({ candidateNumber }) => {
           motto: motto,
           picture: selectedPicture,
         };
-    
-        // Make an API call to save the candidate data
-        try {
-          const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.CANDIDATES}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newCandidate),
-          });
-    
-          if (response.ok) {
-            // Candidate data saved successfully
-            // ... perform any additional actions ...
-          } else {
-            // Handle error
-            console.error("Failed to save candidate data");
-          }
-        } catch (error) {
-          console.error("An error occurred:", error);
-        }
-    
+        
+
         // Update the list of candidates in the state
         setCandidates((prevCandidates) => [...prevCandidates, newCandidate]);
     

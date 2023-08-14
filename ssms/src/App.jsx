@@ -13,6 +13,8 @@ import AdminDashboard from "./components/AdminDashboard";
 import ApproveUsers from "./components/ApproveUsers";
 import StudentDashboard from "./components/StudentDashboard";
 import VotingPage  from "./components/VotingPage";
+import Test from "./components/test";
+
 
 
 
@@ -40,6 +42,7 @@ function App() {
             <Route path="/registration" element={<Registration />} />
             <Route path="/approveUsers" element={<ApproveUsers />} />
             <Route path="/votingpage" element={<VotingPage/>}/>
+            <Route path="/test" element={<Test/>}/>
             
             // for admin login
             <Route

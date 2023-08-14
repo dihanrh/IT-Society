@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import CandidateForm from "./CandidateForm";
+import Test from "./test";
+
 
 import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
 
@@ -64,21 +66,30 @@ const CreateElection = ({ onSaveAndNext }) => {
   };
 
 
-  const handleSaveAndNext = () => {
+  const handleSaveAndNext = async  () => {
     setIsSubmitted(true);
+
 
     const electionData = {
       electionTitle,
       positionName,
-      amountOfCandidates,
-      votingDuration,
+      amountOfCandidates: Number(amountOfCandidates), // Ensure it's a number
       startTime,
-      candidates: [],
+      endTime,
+      votingDuration,
+      candidates: candidateForms.map(form => ({
+        name: form.candidateName,
+        semester: form.currentSemester,
+        id: form.candidateId,
+        cgpa: form.currentCGPA,
+        motto: form.motto,
+        photo: form.selectedPicture,
+      })),
     };
-    
+
+
    
-   
-    forms.push(<CandidateForm key={0} candidateNumber={0} />);
+    forms.push(<CandidateForm />);
       electionData.candidates.push({
         name: "",
         semester: "",
@@ -87,33 +98,114 @@ const CreateElection = ({ onSaveAndNext }) => {
         motto: "",
         photo: "",
       });
+
+      const edata = {
+        electionTitle: "Student Council Election",
+        positionName: "President",
+        amountOfCandidates: 0,
+        startTime: new Date(),
+        endTime: new Date(new Date().getTime() + 60 * 60 * 1000), // 1 hour
+        votingDuration: "1 hour",
+        candidates: [{}],
+      };
+
+      const candidate = {
+        name,
+        semester,
+        id,
+        cgpa,
+        motto,
+        photo,
+      };
+
+
+     [edata, setElectionDetails] = useState(
+      electionData
+    );
+
+    const handleCandidateChange = (index, field, value) => {
+      const updatedCandidates = [...edata.candidates];
+      updatedCandidates[index][field] = value;
+
+      setElectionDetails((prevState) => ({
+        ...prevState,
+        candidates: updatedCandidates,
+      }));
+    };
+
+      
   
     setCandidateForms(forms);
 
     // Call the onSaveAndNext function with the electionData
-        onSaveAndNext(electionData);
+     onSaveAndNext(electionData);
 
     // Add validation to check if all text fields are filled before proceeding
     if (electionTitle && positionName && amountOfCandidates && startTime && endTime ) {
     setIsNotFilled(true) ;
-    
-      // Save the election information and redirect to the next page
-      // For now, let's just console.log the data
-      console.log("Election Title:", electionTitle);
-      console.log("Position Name:", positionName);
-      console.log("Amount of Candidates:", amountOfCandidates);
-      console.log("Voting Duration:", votingDuration);
 
       // Redirect to the next page (Candidate Information Page)
       // Replace "/candidateInformation" with the correct path to the next page
       // For example, if the path for the candidate information page is "/candidate-info", replace it accordingly
-      // history.push("/candidateInformation"); // You'll need to import useHistory from react-router-dom to use this
+      // history.push("/candidateInformation"); //  need to import useHistory from react-router-dom to use this
     } else {
       alert("Please fill all the fields before proceeding.");
     }
 
     
   };
+
+   // Function to handle the API call to store election details
+   const handleProceed = async (electionData) => {
+    console.log("hits form adminDesh", electionData )
+
+    electionData = {
+      electionTitle,
+      positionName,
+      amountOfCandidates: Number(amountOfCandidates), // Ensure it's a number
+      startTime,
+      endTime,
+      votingDuration,
+      candidates : [{}],
+    };
+
+  
+
+
+
+   
+    try {
+      if (electionData) {
+        // Make an API call to store election details
+        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.CANDIDATES}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(electionData),
+        });
+
+        if (response.ok) {
+          // Election details stored successfully
+          alert("Election details stored successfully!");
+          // ... perform any additional actions ...
+        } else {
+          // Handle error
+          console.error("Failed to store election details");
+        }
+      } else {
+        alert("No election data to store.");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
+
+
+
+  
+    
 
   return (
     <>
@@ -186,13 +278,15 @@ const CreateElection = ({ onSaveAndNext }) => {
     
 
       </div>
+
+      <div> <button onClick={handleProceed}>Proceed</button></div>
     </>
   );
 };
 
 // Clicking on "Create Election" will call "CreateElection" component
 
-const CreateElectionDropdown = () => {
+const CreateElectionDropdown = ({ setElectionData }) => {
   // State to manage the visibility of the dropdown
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -210,7 +304,7 @@ const CreateElectionDropdown = () => {
       {isDropdownOpen && (
         <ul>
           <li>
-            <CreateElection />
+            <CreateElection setElectionData={setElectionData} />
           </li>
         </ul>
       )}
@@ -220,7 +314,7 @@ const CreateElectionDropdown = () => {
 
 const AdminDashboard = () => {
   const [pendingRegistrations, setPendingRegistrations] = useState([]);
-
+  const [electionData, setElectionData] = useState(null); 
   // Replace this with actual logic to fetch pending registrations from the server
   // For demonstration purposes, we are using a sample array
 
@@ -249,17 +343,27 @@ const AdminDashboard = () => {
       console.error("An error occurred:", error);
     }
   
-    // Remove the registration from the list
+    // Remove the registration from the list 
     setPendingRegistrations((prevRegistrations) =>
       prevRegistrations.filter((reg) => reg.id !== id)
     );
   };
 
-  // pros driling
+
+   
+
+
 
   return (
-    <div className="adminDiv">
+    <div>
       <h2>Admin Dashboard</h2>
+     <div className="adminU">
+
+     <li >
+  <Link to="/test">TEST</Link>
+</li>
+
+     </div>
 
       <ul className="adminUl">
         <li className="currentElections">
@@ -277,6 +381,7 @@ const AdminDashboard = () => {
         <li className="CreateElectionDropdown">
           <CreateElectionDropdown />
         </li>
+       
       </ul>
     </div>
   );
