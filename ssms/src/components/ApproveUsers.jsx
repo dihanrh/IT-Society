@@ -22,6 +22,7 @@ const ApproveUsers = () => {
   }, []);
 
 
+
   const handleApproval = (id) => {
     
     // Send an API request to mark the registration as approved
@@ -51,6 +52,7 @@ const ApproveUsers = () => {
     <>
       <div>
         <h2>Approved Users</h2>
+      
         <ul>
           {approvedRegistrations.map(reg => (
             <li key={reg.id}>

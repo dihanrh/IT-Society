@@ -13,7 +13,133 @@ const CountdownTimer = ({ timeRemaining }) => {
   );
 };
 
-const CandidateList = ({ candidates, selectedCandidates, onSelectCandidate }) => (
+
+const electonSampleA = 
+{
+  election1 : 
+ {
+  electionTitle: "Electiion Title Test",
+  positionName: "Position Name Test",
+  amountOfCandidates: 0,
+  startTime: {
+    "$date": "2023-08-14T17:33:00.000Z"
+  },
+  endTime: {
+    "$date": "2023-08-15T17:33:00.000Z"
+  },
+  votingDuration: "1 hour",
+  isRunning: true,
+  candidates: [
+    {
+      name: "Test One",
+      id: "20201",
+      semester: "5",
+      cgpa: "3",
+      motto: "hello one",
+      photo: "ok",
+      voteCounter: 0,
+    
+    },
+    {
+      name: "Test Two",
+      id: "20202",
+      semester: "4",
+      cgpa: "3.5",
+      motto: "hello two",
+      photo: "ok",
+      voteCounter: 0,
+      
+    },
+    
+  ],
+ },
+
+ election2 : 
+ {
+  electionTitle: "Electiion Title Test",
+  positionName: "Position Name Test",
+  amountOfCandidates: 0,
+  startTime: {
+    "$date": "2023-08-14T17:33:00.000Z"
+  },
+  endTime: {
+    "$date": "2023-08-15T17:33:00.000Z"
+  },
+  votingDuration: "1 hour",
+  isRunning: true,
+  candidates: [
+    {
+      name: "Test One",
+      id: "20201",
+      semester: "5",
+      cgpa: "3",
+      motto: "hello one",
+      photo: "ok",
+      voteCounter: 0,
+    
+    },
+    {
+      name: "Test Two",
+      id: "20202",
+      semester: "4",
+      cgpa: "3.5",
+      motto: "hello two",
+      photo: "ok",
+      voteCounter: 0,
+      
+    },
+    
+  ],
+ },
+};
+
+
+const electonSample = 
+{
+  electionTitle: "Electiion Title Test",
+  positionName: "Position Name Test",
+  amountOfCandidates: 0,
+  startTime: {
+    "$date": "2023-08-14T17:33:00.000Z"
+  },
+  endTime: {
+    "$date": "2023-08-15T17:33:00.000Z"
+  },
+  votingDuration: "1 hour",
+  isRunning: true,
+  candidates: [
+    {
+      name: "Test One",
+      id: "20201",
+      semester: "5",
+      cgpa: "3",
+      motto: "hello one",
+      photo: "ok",
+      voteCounter: 0,
+    
+    },
+    {
+      name: "Test Two",
+      id: "20202",
+      semester: "4",
+      cgpa: "3.5",
+      motto: "hello two",
+      photo: "ok",
+      voteCounter: 0,
+      
+    },
+    
+  ],
+};
+
+
+
+
+
+
+
+
+const CandidateList = ({ candidates, selectedCandidates, onSelectCandidate, election }) => (
   <div>
     {candidates.map((candidate) => (
       <div key={candidate.id} className="candidate">
@@ -38,85 +164,60 @@ const CandidateList = ({ candidates, selectedCandidates, onSelectCandidate }) =>
 );
 
 const VotingPage = () => {
-  const [election, setElection] = useState(null);
-  const [selectedCandidates, setSelectedCandidates] = useState([]);
-  const [timer, setTimer] = useState(0);
+  const [elections, setElections] = useState([]);
+  const [selectedElection, setSelectedElection] = useState(null);
 
   useEffect(() => {
-    async function fetchElection() {
+    // Simulating fetching data from MongoDB
+    const fetchData = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.CANDIDATES}`);
-        if (response.ok) {
-          const election = await response.json();
-          setElection(election);
-          const endTime = new Date(election.endTime).getTime();
-          const now = new Date().getTime();
-          const timeRemaining = Math.max(endTime - now, 0);
-          setTimer(timeRemaining);
+        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.CANDIDATES}`); 
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
+       const data = await response.json();
+        setElections(data); // Assuming the response is an array of elections
+        setSelectedElection(data[1]); // Display the first election by default
       } catch (error) {
         console.error('Error fetching election data:', error);
       }
-    }
+    };
 
-    fetchElection();
+    fetchData();
   }, []);
 
-  const handleSelectCandidate = (candidateId) => {
-    setSelectedCandidates((prevSelected) => {
-      if (prevSelected.includes(candidateId)) {
-        return prevSelected.filter((id) => id !== candidateId);
-      } else {
-        return [...prevSelected, candidateId];
-      }
-    });
-  };
+  console.log("Selected Election : ", selectedElection);
 
-  const handleSubmitVotes = async () => {
-    try {
-      const response = await fetch('/api/vote/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          electionId: election._id,
-          selectedCandidates,
-        }),
-      });
-      if (response.ok) {
-        // Handle successful vote submission if needed
-      }
-    } catch (error) {
-      console.error('Error submitting votes:', error);
-    }
+  const handleVote = (candidateId) => {
+    // Simulating the vote submission process
+    // You can send the vote to your backend here
+    console.log(`Voted for candidate with ID: ${candidateId}`);
   };
 
   return (
-    <div className="voting-page">
-      <h1>E-vote</h1>
-      {election && (
-        <div className="election-info">
-          <h1>{election.electionTitle}</h1>
-          <CountdownTimer timeRemaining={timer} />
+    <div>
+      {selectedElection ? (
+        <div>
+          <h2>{selectedElection.electionTitle}</h2>
+          <h3>{selectedElection.positionName}</h3>
+          {selectedElection.candidates.map(candidate => (
+            <div key={candidate.id}>
+              <h4>{candidate.name}</h4>
+              <p>ID: {candidate.id}</p>
+              <input
+                type="radio"
+                name="candidate"
+                onChange={() => handleVote(candidate.id)}
+              />
+            </div>
+          ))}
+          <button>Submit</button>
         </div>
+      ) : (
+        <p>Loading election data...</p>
       )}
-
-      {election && election.candidates && election.candidates.map((position) => (
-        <div key={position._id} className="position">
-          <h2>{position.positionName}</h2>
-          <CandidateList
-            candidates={position.candidates}
-            selectedCandidates={selectedCandidates}
-            onSelectCandidate={handleSelectCandidate}
-          />
-        </div>
-      ))}
-
-      <button onClick={handleSubmitVotes}>
-        Submit
-      </button>
     </div>
   );
 };
 export default VotingPage;
+
