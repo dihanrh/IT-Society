@@ -13,171 +13,20 @@ const CountdownTimer = ({ timeRemaining }) => {
   );
 };
 
-
-const electonSampleA = 
-{
-  election1 : 
- {
-  electionTitle: "Electiion Title Test",
-  positionName: "Position Name Test",
-  amountOfCandidates: 0,
-  startTime: {
-    "$date": "2023-08-14T17:33:00.000Z"
-  },
-  endTime: {
-    "$date": "2023-08-15T17:33:00.000Z"
-  },
-  votingDuration: "1 hour",
-  isRunning: true,
-  candidates: [
-    {
-      name: "Test One",
-      id: "20201",
-      semester: "5",
-      cgpa: "3",
-      motto: "hello one",
-      photo: "ok",
-      voteCounter: 0,
-    
-    },
-    {
-      name: "Test Two",
-      id: "20202",
-      semester: "4",
-      cgpa: "3.5",
-      motto: "hello two",
-      photo: "ok",
-      voteCounter: 0,
-      
-    },
-    
-  ],
- },
-
- election2 : 
- {
-  electionTitle: "Electiion Title Test",
-  positionName: "Position Name Test",
-  amountOfCandidates: 0,
-  startTime: {
-    "$date": "2023-08-14T17:33:00.000Z"
-  },
-  endTime: {
-    "$date": "2023-08-15T17:33:00.000Z"
-  },
-  votingDuration: "1 hour",
-  isRunning: true,
-  candidates: [
-    {
-      name: "Test One",
-      id: "20201",
-      semester: "5",
-      cgpa: "3",
-      motto: "hello one",
-      photo: "ok",
-      voteCounter: 0,
-    
-    },
-    {
-      name: "Test Two",
-      id: "20202",
-      semester: "4",
-      cgpa: "3.5",
-      motto: "hello two",
-      photo: "ok",
-      voteCounter: 0,
-      
-    },
-    
-  ],
- },
-};
-
-
-const electonSample = 
-{
-  electionTitle: "Electiion Title Test",
-  positionName: "Position Name Test",
-  amountOfCandidates: 0,
-  startTime: {
-    "$date": "2023-08-14T17:33:00.000Z"
-  },
-  endTime: {
-    "$date": "2023-08-15T17:33:00.000Z"
-  },
-  votingDuration: "1 hour",
-  isRunning: true,
-  candidates: [
-    {
-      name: "Test One",
-      id: "20201",
-      semester: "5",
-      cgpa: "3",
-      motto: "hello one",
-      photo: "ok",
-      voteCounter: 0,
-    
-    },
-    {
-      name: "Test Two",
-      id: "20202",
-      semester: "4",
-      cgpa: "3.5",
-      motto: "hello two",
-      photo: "ok",
-      voteCounter: 0,
-      
-    },
-    
-  ],
-};
-
-
-
-
-
-
-
-
-const CandidateList = ({ candidates, selectedCandidates, onSelectCandidate, election }) => (
-  <div>
-    {candidates.map((candidate) => (
-      <div key={candidate.id} className="candidate">
-        <img src={candidate.photo} alt={candidate.name} className="candidate-photo" />
-        <div className="candidate-info">
-          <h3>{candidate.name}</h3>
-          <p>ID: {candidate.id}</p>
-          <p>Motto: {candidate.motto}</p>
-        </div>
-        <label className='voteButton'>
-          <input
-            type="checkbox"
-            name={`candidate_${candidate.id}`}
-            checked={selectedCandidates.includes(candidate.id)}
-            onChange={() => onSelectCandidate(candidate.id)}
-          />
-          Vote
-        </label>
-      </div>
-    ))}
-  </div>
-);
-
 const VotingPage = () => {
   const [elections, setElections] = useState([]);
-  const [selectedElection, setSelectedElection] = useState(null);
+  const [selectedElectionIndex, setSelectedElectionIndex] = useState(0);
 
   useEffect(() => {
     // Simulating fetching data from MongoDB
     const fetchData = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.CANDIDATES}`); 
+        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.CANDIDATES}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-       const data = await response.json();
+        const data = await response.json();
         setElections(data); // Assuming the response is an array of elections
-        setSelectedElection(data[1]); // Display the first election by default
       } catch (error) {
         console.error('Error fetching election data:', error);
       }
@@ -186,7 +35,7 @@ const VotingPage = () => {
     fetchData();
   }, []);
 
-  console.log("Selected Election : ", selectedElection);
+  console.log("Selected Election Index: ", selectedElectionIndex);
 
   const handleVote = (candidateId) => {
     // Simulating the vote submission process
@@ -194,9 +43,11 @@ const VotingPage = () => {
     console.log(`Voted for candidate with ID: ${candidateId}`);
   };
 
+  const selectedElection = elections[selectedElectionIndex] || null;
+
   return (
     <div>
-      {selectedElection ? (
+      {elections.length > 0 ? (
         <div>
           <h2>{selectedElection.electionTitle}</h2>
           <h3>{selectedElection.positionName}</h3>
@@ -212,6 +63,18 @@ const VotingPage = () => {
             </div>
           ))}
           <button>Submit</button>
+          <button
+            onClick={() => setSelectedElectionIndex((prevIndex) => prevIndex - 1)}
+            disabled={selectedElectionIndex === 0}
+          >
+            Previous Election
+          </button>
+          <button
+            onClick={() => setSelectedElectionIndex((prevIndex) => prevIndex + 1)}
+            disabled={selectedElectionIndex === elections.length - 1}
+          >
+            Next Election
+          </button>
         </div>
       ) : (
         <p>Loading election data...</p>
@@ -220,4 +83,3 @@ const VotingPage = () => {
   );
 };
 export default VotingPage;
-

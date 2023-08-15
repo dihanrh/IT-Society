@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const Registration = require('../models/registration');
 const Election = require('../models/Election');
+const VoteElection = require('../models/VoteElection') ;
 const router = express.Router();
 const mongoose = require('mongoose');
 
@@ -118,6 +119,38 @@ router.get('/candidates', async (req, res) => {
   console.log("hits to get election authC") ;
   try {
     const elections = await Election.find();
+    res.json(elections);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch elections' });
+  }
+});
+
+
+
+
+
+
+
+
+////////////////// testing VoteElectio /////////////////
+// Route to create a new election
+router.post('/vote', async (req, res) => {
+  console.log("hits to create VoteElection  authC") ;
+  try {
+    const newElection = req.body; // Election data from the request body
+    const createdElection = await VoteElection.create(newElection);
+    res.json(createdElection);
+  } catch (error) {
+    console.log("hits to catch") ;
+    res.status(500).json({ error: 'Failed to create election' });
+  }
+});
+
+
+router.get('/vote', async (req, res) => {
+  console.log("hits to get VoteElection authC") ;
+  try {
+    const elections = await VoteElection.find();
     res.json(elections);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch elections' });
