@@ -87,8 +87,9 @@ const sampleData = {
       ],
     },
   ],
-  endTime: new Date('2023-07-31T18:00:00Z').toISOString(), // Replace with actual end time
+  endTime: new Date('2023-08-19T18:00:00Z').toISOString(), // Replace with actual end time
 };
+
 
 
 const VotingPage = () => {
@@ -97,7 +98,10 @@ const VotingPage = () => {
   const [selectedCandidates, setSelectedCandidates] = useState({});
   const [timer, setTimer] = useState(null);
 
+
+
   useEffect(() => {
+    
     // Simulating fetching data from MongoDB
     const fetchData = async () => {
       try {
@@ -107,16 +111,36 @@ const VotingPage = () => {
         }
         const data = await response.json();
         setElection(data[0]); // Assuming the response is an array of elections
+        // Calculate remaining time based on endTime
+        const endTime = new Date(data[0].endTime).getTime();
+        const now = new Date().getTime();
+        const timeRemaining = endTime - now;
+        setTimer(timeRemaining); // Initialize the countdown timer
+         // Update the timer every second
+         const intervalId = setInterval(() => {
+          setTimer(prevTime => Math.max(0, prevTime - 1000));
+        }, 1000);
+
+        // Clear the interval when the component unmounts
+       
+        return () => clearInterval(intervalId);
+
       } catch (error) {
         console.error('Error fetching election data:', error);
       }
     };
+    
 
     fetchData();
+
   }, []);
+
+
+  
 
   
   console.log("election : ", election);
+
 
   // Function to handle radio button selection
   const handleSelectCandidate = (positionId, candidateId) => {
