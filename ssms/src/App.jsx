@@ -13,9 +13,8 @@ import AdminDashboard from "./components/AdminDashboard";
 import ApproveUsers from "./components/ApproveUsers";
 import StudentDashboard from "./components/StudentDashboard";
 import VotingPage  from "./components/VotingPage";
-import TestVoting from "./components/testVoting";
 import Test from "./components/test";
-import ElectionForm from "./components/ElectionForm";
+
 
 
 
@@ -45,8 +44,8 @@ function App() {
             <Route path="/approveUsers" element={<ApproveUsers />} />
             <Route path="/votingpage" element={<VotingPage/>}/>
             <Route path="/test" element={<Test/>}/>
-            <Route path="/testVoting" element ={<TestVoting/>}/>
-            <Route path="/electionForm" element ={<ElectionForm/>} />
+           
+
             
             // for admin login
             <Route
