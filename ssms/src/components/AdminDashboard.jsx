@@ -11,282 +11,232 @@ import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
 
 // CreateElection Component
 
-const CreateElection = ({ onSaveAndNext }) => {
-  const [electionTitle, setElectionTitle] = useState("");
-  const [positionName, setPositionName] = useState("");
-  const [amountOfCandidates, setAmountOfCandidates] = useState("");
-  const [votingDuration, setVotingDuration] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [candidateForms, setCandidateForms] = useState([]);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isNotFilled, setIsNotFilled] = useState(false);
-  const forms = [];
- // Function to check if the number of candidates is the same as amountOfCandidates
-  //const isCandidateListComplete = candidateForms.length === Number(amountOfCandidates);
-  
-  const handleVotingDurationChange = (event) => {
-    setVotingDuration(event.target.value);
+const CreateElection = () => {
+  const [electionDetails, setElectionDetails] = useState({
+    electionTitle: "",
+    amountOfPosition: 0,
+    positions: [],
+    startTime: new Date(),
+    endTime: new Date(),
+    votingDuration: "1 hour",
+    isRunning: true,
+  });
+
+  const handleElectionChange = (field, value) => {
+    setElectionDetails((prevDetails) => ({
+      ...prevDetails,
+      [field]: value,
+    }));
   };
 
-  const handleStartTimeChange = (event) => {
-    setStartTime(event.target.value);
+  const handlePositionChange = (index, field, value) => {
+    const updatedPositions = [...electionDetails.positions];
+    updatedPositions[index][field] = value;
+
+    setElectionDetails((prevDetails) => ({
+      ...prevDetails,
+      positions: updatedPositions,
+    }));
   };
 
-  const handleEndTimeChange = (event) => {
-    setEndTime(event.target.value);
+  const handleCandidateChange = (positionIndex, candidateIndex, field, value) => {
+    const updatedPositions = [...electionDetails.positions];
+    updatedPositions[positionIndex].candidates[candidateIndex][field] = value;
+
+    setElectionDetails((prevDetails) => ({
+      ...prevDetails,
+      positions: updatedPositions,
+    }));
   };
 
-  // Function to calculate the difference between start time and end time
-  const calculateTimeDifference = () => {
-    if (startTime && endTime) {
-      const start = new Date(startTime);
-      const end = new Date(endTime);
-      const currentTime = new Date();
-      const timeDifference = end - start;
-      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor(
-        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-      );
-      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+  const addPosition = () => {
+    setElectionDetails((prevDetails) => ({
+      ...prevDetails,
+      amountOfPosition: prevDetails.amountOfPosition + 1,
+      positions: [...prevDetails.positions, { positionName: "", amountOfCandidates: 0, candidates: [] }],
+    }));
+  };
 
-      if (timeDifference <= 0 || start < currentTime) {
-        // need to add "SaveAndNext" sate/logic  to deactive it
-        return "Error in the time selection";
-      } else
-        return (
-          "Duration : " +
-          `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`
-        );
+  const addCandidate = (positionIndex) => {
+    const updatedPositions = [...electionDetails.positions];
+    if (updatedPositions[positionIndex].amountOfCandidates < 3) {
+      updatedPositions[positionIndex].amountOfCandidates += 1;
+      updatedPositions[positionIndex].candidates.push({voteCounter:0,});
+      setElectionDetails((prevDetails) => ({
+        ...prevDetails,
+        positions: updatedPositions,
+      }));
     }
-    return "";
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("Election Details:", electionDetails);
 
-  const handleSaveAndNext = async  () => {
-    setIsSubmitted(true);
-
-
-    const electionData = {
-      electionTitle,
-      positionName,
-      amountOfCandidates: Number(amountOfCandidates), // Ensure it's a number
-      startTime,
-      endTime,
-      votingDuration,
-      candidates: candidateForms.map(form => ({
-        name: form.candidateName,
-        semester: form.currentSemester,
-        id: form.candidateId,
-        cgpa: form.currentCGPA,
-        motto: form.motto,
-        photo: form.selectedPicture,
-      })),
-    };
-
-
-   
-    forms.push(<CandidateForm />);
-      electionData.candidates.push({
-        name: "",
-        semester: "",
-        id: "",
-        cgpa: "",
-        motto: "",
-        photo: "",
+    try {
+      // Make an API call to store election details
+      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.VOTE}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(electionDetails),
       });
 
-      const edata = {
-        electionTitle: "Student Council Election",
-        positionName: "President",
-        amountOfCandidates: 0,
-        startTime: new Date(),
-        endTime: new Date(new Date().getTime() + 60 * 60 * 1000), // 1 hour
-        votingDuration: "1 hour",
-        candidates: [{}],
-      };
-
-      const candidate = {
-        name,
-        semester,
-        id,
-        cgpa,
-        motto,
-        photo,
-      };
-
-
-     [edata, setElectionDetails] = useState(
-      electionData
-    );
-
-    const handleCandidateChange = (index, field, value) => {
-      const updatedCandidates = [...edata.candidates];
-      updatedCandidates[index][field] = value;
-
-      setElectionDetails((prevState) => ({
-        ...prevState,
-        candidates: updatedCandidates,
-      }));
-    };
-
-      
-  
-    setCandidateForms(forms);
-
-    // Call the onSaveAndNext function with the electionData
-     onSaveAndNext(electionData);
-
-    // Add validation to check if all text fields are filled before proceeding
-    if (electionTitle && positionName && amountOfCandidates && startTime && endTime ) {
-    setIsNotFilled(true) ;
-
-      // Redirect to the next page (Candidate Information Page)
-      // Replace "/candidateInformation" with the correct path to the next page
-      // For example, if the path for the candidate information page is "/candidate-info", replace it accordingly
-      // history.push("/candidateInformation"); //  need to import useHistory from react-router-dom to use this
-    } else {
-      alert("Please fill all the fields before proceeding.");
-    }
-
-    
-  };
-
-   // Function to handle the API call to store election details
-   const handleProceed = async (electionData) => {
-    console.log("hits form adminDesh", electionData )
-
-    electionData = {
-      electionTitle,
-      positionName,
-      amountOfCandidates: Number(amountOfCandidates), // Ensure it's a number
-      startTime,
-      endTime,
-      votingDuration,
-      candidates : [{}],
-    };
-
-  
-
-
-
-   
-    try {
-      if (electionData) {
-        // Make an API call to store election details
-        const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.CANDIDATES}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(electionData),
-        });
-
-        if (response.ok) {
-          // Election details stored successfully
-          alert("Election details stored successfully!");
-          // ... perform any additional actions ...
-        } else {
-          // Handle error
-          console.error("Failed to store election details");
-        }
+      if (response.ok) {
+        alert("Election details stored successfully!");
       } else {
-        alert("No election data to store.");
+        console.error("Failed to store election details");
       }
     } catch (error) {
       console.error("An error occurred:", error);
     }
   };
 
-
-
-
-  
-    
-
   return (
-    <>
-      {isSubmitted ? (
-        <div className="ShowElectionInfo">
-          <h2>Election Information</h2>
-          <p>Election Title: {electionTitle}</p>
-          <p>Position Name: {positionName}</p>
-          <p>Amount of Candidates: {amountOfCandidates}</p>
-          <p>Starting Time :{startTime}</p>
-          <p>Ending Time :{endTime}</p>
-          <p>Duration : {calculateTimeDifference()}</p>
+    <div>
+      <h1>Vote Election Form</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Election Title:</label>
+          <input
+            type="text"
+            value={electionDetails.electionTitle}
+            onChange={(e) => handleElectionChange("electionTitle", e.target.value)}
+            required
+          />
         </div>
-      ) : (
-        <div className="InputElectionInfo">
-          <h2>Election Information</h2>
-          <form>
-            <div>
-              <label>Election Title:</label>
-              <input
-                type="text"
-                value={electionTitle}
-                onChange={(e) => setElectionTitle(e.target.value)}
-              />
-            </div>
+        <div>
+          <label>Amount of Positions:</label>
+          <input
+            type="number"
+            value={electionDetails.amountOfPosition}
+            onChange={(e) => handleElectionChange("amountOfPosition", e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Starting Time:</label>
+          <input
+            type="datetime-local"
+            value={electionDetails.startTime}
+            onChange={(e) => handleElectionChange("startTime", e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Ending Time:</label>
+          <input
+            type="datetime-local"
+            value={electionDetails.endTime}
+            onChange={(e) => handleElectionChange("endTime", e.target.value)}
+          />
+        </div>
+
+        <h2>Positions</h2>
+        {electionDetails.positions.map((position, positionIndex) => (
+          <div key={positionIndex}>
+            <h3>Position {positionIndex + 1}</h3>
             <div>
               <label>Position Name:</label>
               <input
                 type="text"
-                value={positionName}
-                onChange={(e) => setPositionName(e.target.value)}
+                value={position.positionName}
+                onChange={(e) => handlePositionChange(positionIndex, "positionName", e.target.value)}
+                required
               />
             </div>
             <div>
               <label>Amount of Candidates:</label>
               <input
                 type="number"
-                value={amountOfCandidates}
-                onChange={(e) => setAmountOfCandidates(e.target.value)}
-              />
-            </div>
-            <div>
-              <label>Starting Time:</label>
-              <input
-                type="datetime-local"
-                value={startTime}
-                onChange={handleStartTimeChange}
+                value={position.amountOfCandidates}
+                onChange={(e) => handlePositionChange(positionIndex, "amountOfCandidates", e.target.value)}
               />
             </div>
 
-            <div>
-              <label>Ending Time:</label>
-              <input
-                type="datetime-local"
-                value={endTime}
-                onChange={handleEndTimeChange}
-              />
-            </div>
-            <button type="button" onClick={handleSaveAndNext}>
-              Save and Next
+            <h4>Candidates</h4>
+            {position.candidates.map((candidate, candidateIndex) => (
+              <div key={candidateIndex}>
+                <h5>Candidate {candidateIndex + 1}</h5>
+                <div>
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    value={candidate.name || ""}
+                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "name", e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>ID:</label>
+                  <input
+                    type="text"
+                    value={candidate.id || ""}
+                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "id", e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Current Semester:</label>
+                  <input
+                    type="text"
+                    value={candidate.semester || ""}
+                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "semester", e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Current CGPA:</label>
+                  <input
+                    type="text"
+                    value={candidate.cgpa || ""}
+                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "cgpa", e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Motto:</label>
+                  <input
+                    type="text"
+                    value={candidate.motto || ""}
+                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "motto", e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Photo:</label>
+                  <input
+                    type="text"
+                    value={candidate.photo || ""}
+                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "photo", e.target.value)}
+                    required
+                  />
+                </div>
+                
+                
+                {/* Other candidate input fields */}
+              </div>
+            ))}
+            <button type="button" onClick={() => addCandidate(positionIndex)}>
+              Add Candidate
             </button>
-          </form>
-        </div>
-      )}
-
-      <div>{candidateForms}</div>
-      <div>
-
-         {/* Render "Final Save and Proceed" button if the candidate list is complete */}
-    
-
-      </div>
-
-      <div> <button onClick={handleProceed}>Proceed</button></div>
-    </>
+          </div>
+        ))}
+        {electionDetails.amountOfPosition < 3 && (
+          <button type="button" onClick={addPosition}>
+            Add Position
+          </button>
+        )}
+        {electionDetails.amountOfPosition >= 1 && (
+          <button type="submit">Proceed</button>
+        )}
+      </form>
+    </div>
   );
 };
 
 // Clicking on "Create Election" will call "CreateElection" component
 
-const CreateElectionDropdown = ({ setElectionData }) => {
+const CreateElectionDropdown = () => {
   // State to manage the visibility of the dropdown
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -304,7 +254,7 @@ const CreateElectionDropdown = ({ setElectionData }) => {
       {isDropdownOpen && (
         <ul>
           <li>
-            <CreateElection setElectionData={setElectionData} />
+            <CreateElection/>
           </li>
         </ul>
       )}
@@ -313,42 +263,7 @@ const CreateElectionDropdown = ({ setElectionData }) => {
 };
 
 const AdminDashboard = () => {
-  const [pendingRegistrations, setPendingRegistrations] = useState([]);
-  const [electionData, setElectionData] = useState(null); 
-  // Replace this with actual logic to fetch pending registrations from the server
-  // For demonstration purposes, we are using a sample array
-
-
-
-  // 1. config - API endpoint
-  const handleApproval = async (id) => {
-    try {
-      // Make an API call to update the registration status
-      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.REGISTRATIONS}/${id}`, {
-        method: "PATCH", // Use PATCH for updating existing data
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: "approved" }), // Update status as needed
-      });
   
-      if (response.ok) {
-        // Registration status updated successfully
-        // ... perform any additional actions ...
-      } else {
-        // Handle error
-        console.error("Failed to update registration status");
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  
-    // Remove the registration from the list 
-    setPendingRegistrations((prevRegistrations) =>
-      prevRegistrations.filter((reg) => reg.id !== id)
-    );
-  };
-
 
    
 
@@ -358,10 +273,6 @@ const AdminDashboard = () => {
     <div>
       <h2>Admin Dashboard</h2>
      <div className="adminU">
-
-     <li >
-  <Link to="/test">TEST</Link>
-</li>
 
      </div>
 

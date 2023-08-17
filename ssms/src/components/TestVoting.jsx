@@ -130,20 +130,65 @@ const TestVoting = () => {
 
   // Function to submit votes
   const handleSubmitVotes = async () => {
+    if (!election || !selectedCandidates) {
+      console.error('No election or selected candidates');
+      return;
+    }
+
     try {
-      const response = await fetch('/api/vote/submit', {
-        method: 'POST',
+      const updatedCandidates = [];
+      // Loop through each selected candidate and update their voteCounter
+      for (const positionId in selectedCandidates) {
+        const candidateId = selectedCandidates[positionId];
+
+        // Find the position and candidate in the election data
+        const position = election.positions.find(pos => pos._id === positionId);
+        if (!position) {
+          console.error('Position not found:', positionId);
+          continue;
+        }
+        const candidate = position.candidates.find(cand => cand._id === candidateId);
+        if (!candidate) {
+          console.error('Candidate not found:', candidateId);
+          continue;
+        }
+
+        // Increment the voteCounter of the candidate and create an updated candidate object
+        const updatedCandidate = {
+          ...candidate,
+          voteCounter: (candidate.voteCounter || 0) + 1,
+        };
+
+        // Add the updated candidate to the list of updatedCandidates
+        updatedCandidates.push(updatedCandidate);
+      }
+
+      // Update the election object with the updatedCandidates
+      const updatedElection = {
+        ...election,
+        positions: election.positions.map(position => ({
+          ...position,
+          candidates: position.candidates.map(candidate => {
+            const updatedCandidate = updatedCandidates.find(cand => cand._id === candidate._id);
+            return updatedCandidate || candidate;
+          }),
+        })),
+      };
+
+      // Send the updatedElection to the server
+      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.VOTE}`, {
+        method: 'PUT', // Use PUT method to update the election data
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          electionId: election._id,
-          selectedCandidates,
-        }),
+        body: JSON.stringify(updatedElection),
       });
+
       if (response.ok) {
         // Votes submitted successfully
-        // Update candidate vote counts on the frontend if needed
+        // You can update the local state if needed
+      } else {
+        console.error('Failed to update election data');
       }
     } catch (error) {
       console.error('Error submitting votes:', error);
@@ -156,14 +201,14 @@ const TestVoting = () => {
       <h1>E-vote</h1>
       {election && (
         <div className="election-info">
-          <h1>{election.title}</h1>
+          <h1>{election.electionTitle}</h1>
           <CountdownTimer timeRemaining={timer} />
         </div>
       )}
 
       {election && election.positions.map((position) => (
         <div key={position._id} className="position">
-          <h2>{position.name}</h2>
+          <h2>{position.positionName}</h2>
           <CandidateList
            positionId={position._id}
            candidates={position.candidates}

@@ -157,6 +157,48 @@ router.get('/vote', async (req, res) => {
   }
 });
 
+// Define the route for updating vote counts
+router.put('/vote', async (req, res) => {
+  console.log("Hits to submit vote authC")
+  try {
+    const updatedElection = req.body; // Assuming the request body contains the updated election data
+
+    // Loop through the updatedElection to update the voteCounter for each candidate
+    for (const position of updatedElection.positions) {
+      for (const candidate of position.candidates) {
+        try {
+          // Find the candidate in your data model
+          const existingCandidate = await Candidate.findById(candidate._id);
+
+          if (!existingCandidate) {
+            console.error('Candidate not found:', candidate._id);
+            continue;
+          }
+
+          // Update the vote count
+          existingCandidate.voteCounter = (existingCandidate.voteCounter || 0) + candidate.voteCounter;
+          await existingCandidate.save();
+        } catch (error) {
+          console.error('Error updating candidate:', error);
+        }
+      }
+    }
+
+    // For demonstration purposes, log the updated election info
+    console.log('Updated election:', updatedElection);
+
+    // Update the election in your data model
+    await VoteElection.findByIdAndUpdate(updatedElection._id, updatedElection);
+
+    // Respond with a success message
+    res.json({ message: 'Votes submitted successfully' });
+  } catch (error) {
+    console.error('Error updating election data:', error);
+    res.status(500).json({ error: 'An error occurred while updating election data' });
+  }
+});
+
+
 
 
 module.exports = router;

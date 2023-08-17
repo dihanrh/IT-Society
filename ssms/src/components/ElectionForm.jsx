@@ -962,9 +962,9 @@ const ElectionForm = () => {
   
     const addCandidate = (positionIndex) => {
       const updatedPositions = [...electionDetails.positions];
-      if (updatedPositions[positionIndex].amountOfCandidates < 2) {
+      if (updatedPositions[positionIndex].amountOfCandidates < 3) {
         updatedPositions[positionIndex].amountOfCandidates += 1;
-        updatedPositions[positionIndex].candidates.push({});
+        updatedPositions[positionIndex].candidates.push({voteCounter:0,});
         setElectionDetails((prevDetails) => ({
           ...prevDetails,
           positions: updatedPositions,
@@ -1069,6 +1069,53 @@ const ElectionForm = () => {
                       required
                     />
                   </div>
+                  <div>
+                    <label>ID:</label>
+                    <input
+                      type="text"
+                      value={candidate.id || ""}
+                      onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "id", e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label>Current Semester:</label>
+                    <input
+                      type="text"
+                      value={candidate.semester || ""}
+                      onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "semester", e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label>Current CGPA:</label>
+                    <input
+                      type="text"
+                      value={candidate.cgpa || ""}
+                      onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "cgpa", e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label>Motto:</label>
+                    <input
+                      type="text"
+                      value={candidate.motto || ""}
+                      onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "motto", e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label>Photo:</label>
+                    <input
+                      type="text"
+                      value={candidate.photo || ""}
+                      onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "photo", e.target.value)}
+                      required
+                    />
+                  </div>
+                  
+                  
                   {/* Other candidate input fields */}
                 </div>
               ))}
@@ -1077,7 +1124,7 @@ const ElectionForm = () => {
               </button>
             </div>
           ))}
-          {electionDetails.amountOfPosition < 1 && (
+          {electionDetails.amountOfPosition < 3 && (
             <button type="button" onClick={addPosition}>
               Add Position
             </button>
