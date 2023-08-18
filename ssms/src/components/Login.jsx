@@ -42,6 +42,7 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
                 name: userData.name,
                 studentId: userData.studentId,
                 semester: userData.semester,
+                hasVoted: userData.hasVoted,
               },
             });
           }

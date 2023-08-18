@@ -24,6 +24,7 @@ const VoteElectionSchema = new mongoose.Schema({
   endTime: Date,
   votingDuration: String,
   isRunning: Boolean,
+  voterList: [{ studentId: String }],
 });
 
 const VoteElection = mongoose.model("VoteElection", VoteElectionSchema);

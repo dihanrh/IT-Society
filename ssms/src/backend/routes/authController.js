@@ -132,7 +132,7 @@ router.get('/candidates', async (req, res) => {
 
 
 
-////////////////// testing VoteElectio /////////////////
+//////////////////  VoteElection  /////////////////
 // Route to create a new election
 router.post('/vote', async (req, res) => {
   console.log("hits to create VoteElection  authC") ;
@@ -157,47 +157,39 @@ router.get('/vote', async (req, res) => {
   }
 });
 
+
 // Define the route for updating vote counts
-router.put('/vote', async (req, res) => {
-  console.log("Hits to submit vote authC")
+router.put('/vote/:electionId', async (req, res) => {
   try {
-    const updatedElection = req.body; // Assuming the request body contains the updated election data
+    const { electionId } = req.params;
+    const { votedCandidateIds, studentId } = req.body;
 
-    // Loop through the updatedElection to update the voteCounter for each candidate
-    for (const position of updatedElection.positions) {
+    const existingElection = await VoteElection.findById(electionId);
+    if (!existingElection) {
+      return res.status(404).json({ error: 'Election not found' });
+    }
+
+    if (studentId) {
+      existingElection.voterList.push({ studentId });
+    }
+
+    for (const position of existingElection.positions) {
       for (const candidate of position.candidates) {
-        try {
-          // Find the candidate in your data model
-          const existingCandidate = await Candidate.findById(candidate._id);
-
-          if (!existingCandidate) {
-            console.error('Candidate not found:', candidate._id);
-            continue;
-          }
-
-          // Update the vote count
-          existingCandidate.voteCounter = (existingCandidate.voteCounter || 0) + candidate.voteCounter;
-          await existingCandidate.save();
-        } catch (error) {
-          console.error('Error updating candidate:', error);
+        if (votedCandidateIds.includes(candidate._id.toString())) {
+          // Update the vote count for the voted candidate
+          candidate.voteCounter = (candidate.voteCounter || 0) + 1;
         }
       }
     }
 
-    // For demonstration purposes, log the updated election info
-    console.log('Updated election:', updatedElection);
+    await existingElection.save();
 
-    // Update the election in your data model
-    await VoteElection.findByIdAndUpdate(updatedElection._id, updatedElection);
-
-    // Respond with a success message
     res.json({ message: 'Votes submitted successfully' });
   } catch (error) {
     console.error('Error updating election data:', error);
     res.status(500).json({ error: 'An error occurred while updating election data' });
   }
 });
-
 
 
 

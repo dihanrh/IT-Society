@@ -14,6 +14,7 @@ import ApproveUsers from "./components/ApproveUsers";
 import StudentDashboard from "./components/StudentDashboard";
 import VotingPage  from "./components/VotingPage";
 import Test from "./components/test";
+import CurrentElections from "./components/CurrentElections";
 
 
 
@@ -44,6 +45,7 @@ function App() {
             <Route path="/approveUsers" element={<ApproveUsers />} />
             <Route path="/votingpage" element={<VotingPage/>}/>
             <Route path="/test" element={<Test/>}/>
+            <Route path="/currentElections" element = {<CurrentElections/>} />
            
 
             

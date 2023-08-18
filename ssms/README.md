@@ -12,5 +12,4 @@ Currently, two official plugins are available:
 -----------------
 task : 
 to do :
-one. ElectionForm.jsx : add all the input
-two. TestVoting.jsx : implement the votecounter
+1. voterList - adminDeshbord

@@ -20,6 +20,7 @@ const CreateElection = () => {
     endTime: new Date(),
     votingDuration: "1 hour",
     isRunning: true,
+    voterList :[],
   });
 
   const handleElectionChange = (field, value) => {

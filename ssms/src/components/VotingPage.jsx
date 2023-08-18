@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
 
 const CountdownTimer = ({ timeRemaining }) => {
@@ -55,7 +56,7 @@ const sampleData = {
           name: 'Kazi Suuny',
           id: '123456',
           motto: 'Vote for a better future',
-          photo: 'https://scontent.fdac135-1.fna.fbcdn.net/v/t39.30808-6/343990070_967836087748747_6649146319590324568_n.jpg?_nc_cat=106&cb=99be929b-3346023f&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeFDz-AM5Tg4G-E4p-fWnXpsjsF2rg5EImSOwXauDkQiZIX-LjyvtxSmCNU1oXGlLXvywoUdrpYYUh04I2VgQ7mr&_nc_ohc=nSeavKqarw0AX96moy3&_nc_ht=scontent.fdac135-1.fna&oh=00_AfBrYPAd-8oui3aakHQLw76uhfORtnD05DZ1PAVHCtBIkA&oe=64D146ED', 
+          photo: 'https://scontent.fdac135-1.fna.fbcdn.net/v/t39.30808-6/343990070_967836087748747_6649146319590324568_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeFDz-AM5Tg4G-E4p-fWnXpsjsF2rg5EImSOwXauDkQiZIX-LjyvtxSmCNU1oXGlLXvywoUdrpYYUh04I2VgQ7mr&_nc_ohc=gHpkch73i5YAX9JhRA-&_nc_ht=scontent.fdac135-1.fna&oh=00_AfCtJo4_G5GJvVZGZJiwaWbKHDIcNXJslMbq4TYLf8U1Xg&oe=64E50D6D', 
         },
         {
           _id: 'candidate2',
@@ -93,12 +94,17 @@ const sampleData = {
 
 
 const VotingPage = () => {
-  
+
+  // student ID from stduent deshbord
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const studentId = queryParams.get('studentId');
+
   const [election, setElection] = useState();
   const [selectedCandidates, setSelectedCandidates] = useState({});
   const [timer, setTimer] = useState(null);
 
-
+  console.log("Student ID :", studentId) ;
 
   useEffect(() => {
     
@@ -111,8 +117,10 @@ const VotingPage = () => {
         }
         const data = await response.json();
         setElection(data[0]); // Assuming the response is an array of elections
+       
+       
         // Calculate remaining time based on endTime
-        const endTime = new Date(data[0].endTime).getTime();
+      {/*  const endTime = new Date(data[0].endTime).getTime();
         const now = new Date().getTime();
         const timeRemaining = endTime - now;
         setTimer(timeRemaining); // Initialize the countdown timer
@@ -123,7 +131,7 @@ const VotingPage = () => {
 
         // Clear the interval when the component unmounts
        
-        return () => clearInterval(intervalId);
+      return () => clearInterval(intervalId); */}
 
       } catch (error) {
         console.error('Error fetching election data:', error);
@@ -152,60 +160,27 @@ const VotingPage = () => {
 
   // Function to submit votes
   const handleSubmitVotes = async () => {
-    if (!election || !selectedCandidates) {
+    if (!election || !selectedCandidates || !studentId) {
       console.error('No election or selected candidates');
       return;
     }
 
     try {
-      const updatedCandidates = [];
-      // Loop through each selected candidate and update their voteCounter
-      for (const positionId in selectedCandidates) {
-        const candidateId = selectedCandidates[positionId];
-
-        // Find the position and candidate in the election data
-        const position = election.positions.find(pos => pos._id === positionId);
-        if (!position) {
-          console.error('Position not found:', positionId);
-          continue;
-        }
-        const candidate = position.candidates.find(cand => cand._id === candidateId);
-        if (!candidate) {
-          console.error('Candidate not found:', candidateId);
-          continue;
-        }
-
-        // Increment the voteCounter of the candidate and create an updated candidate object
-        const updatedCandidate = {
-          ...candidate,
-          voteCounter: (candidate.voteCounter || 0) + 1,
-        };
-
-        // Add the updated candidate to the list of updatedCandidates
-        updatedCandidates.push(updatedCandidate);
-      }
-
-      // Update the election object with the updatedCandidates
-      const updatedElection = {
-        ...election,
-        positions: election.positions.map(position => ({
-          ...position,
-          candidates: position.candidates.map(candidate => {
-            const updatedCandidate = updatedCandidates.find(cand => cand._id === candidate._id);
-            return updatedCandidate || candidate;
-          }),
-        })),
-      };
-
-      // Send the updatedElection to the server
-      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.VOTE}`, {
-        method: 'PUT', // Use PUT method to update the election data
+      // Create an array to hold the IDs of candidates that received votes
+      const votedCandidateIds = Object.values(selectedCandidates);
+  
+      // Send the voted candidate IDs to the server
+      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.VOTE}/${election._id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedElection),
+        body: JSON.stringify({
+          votedCandidateIds,
+          studentId,
+        }),
       });
-
+  
       if (response.ok) {
         // Votes submitted successfully
         // You can update the local state if needed
@@ -216,6 +191,9 @@ const VotingPage = () => {
       console.error('Error submitting votes:', error);
     }
   };
+  
+
+  
 
   // Render the voting page components
   return (

@@ -7,6 +7,7 @@ const API_ENDPOINTS = {
   LOGIN: "/login", 
   REGISTRATION: "/registration",
   VOTE: "/vote",
+  VOTER: "/voter",
   // CANDIDATES :"",
 };
 
