@@ -37,6 +37,7 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
             navigate('/adminDashboard');
           } else {
             setIsStudentLoggedIn(true);
+            localStorage.setItem('isStudentLoggedIn', true);
             navigate('/studentDashboard', {
               state: {
                 name: userData.name,

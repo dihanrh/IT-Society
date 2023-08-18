@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+//const isStudentLoggedIn = localStorage.getItem('isStudentLoggedIn');
 
 
 
-
-const HomeMenu = ({ isAdminLoggedIn, isStudentLoggedIn }) => {
+const HomeMenu = ({ isAdminLoggedIn,isStudentLoggedIn }) => {
   return (
     <>
       <nav>

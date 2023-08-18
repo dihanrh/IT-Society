@@ -12,6 +12,8 @@ import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
 // CreateElection Component
 
 const CreateElection = () => {
+  const [proccedElection, setproccedElection] = useState(null);
+
   const [electionDetails, setElectionDetails] = useState({
     electionTitle: "",
     amountOfPosition: 0,
@@ -85,9 +87,11 @@ const CreateElection = () => {
       });
 
       if (response.ok) {
-        alert("Election details stored successfully!");
+        // alert("Election details stored successfully!");
+        setproccedElection('success') ;
       } else {
         console.error("Failed to store election details");
+        setproccedElection('error') ;
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -96,7 +100,15 @@ const CreateElection = () => {
 
   return (
     <div>
-      <h1>Vote Election Form</h1>
+      {proccedElection == 'success'&& (
+        <div><h1>Election has been created successfully</h1>
+        
+        </div>
+      )}
+
+{proccedElection == null && (
+        <div>
+           <h1>Vote Election Form</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Election Title:</label>
@@ -231,6 +243,10 @@ const CreateElection = () => {
           <button type="submit">Proceed</button>
         )}
       </form>
+        
+        </div>
+      )}
+     
     </div>
   );
 };

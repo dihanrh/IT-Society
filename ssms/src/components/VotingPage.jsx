@@ -103,6 +103,11 @@ const VotingPage = () => {
   const [election, setElection] = useState();
   const [selectedCandidates, setSelectedCandidates] = useState({});
   const [timer, setTimer] = useState(null);
+  const [hasVoted, setHasVoted] = useState(false);
+  const [voteSubmissionStatus, setVoteSubmissionStatus] = useState(null);
+
+
+
 
   console.log("Student ID :", studentId) ;
 
@@ -117,6 +122,11 @@ const VotingPage = () => {
         }
         const data = await response.json();
         setElection(data[0]); // Assuming the response is an array of elections
+
+      // Check if the user's studentId is in the voterList
+      if (data[0].voterList.some(voter => voter.studentId === studentId)) {
+        setHasVoted(true);
+      }
        
        
         // Calculate remaining time based on endTime
@@ -141,14 +151,14 @@ const VotingPage = () => {
 
     fetchData();
 
-  }, []);
+  }, [studentId]);
 
 
   
 
   
-  console.log("election : ", election);
-
+  console.log("election : ", hasVoted);
+  
 
   // Function to handle radio button selection
   const handleSelectCandidate = (positionId, candidateId) => {
@@ -182,49 +192,73 @@ const VotingPage = () => {
       });
   
       if (response.ok) {
-        // Votes submitted successfully
-        // You can update the local state if needed
+        setVoteSubmissionStatus('success');
       } else {
         console.error('Failed to update election data');
       }
     } catch (error) {
       console.error('Error submitting votes:', error);
+      setVoteSubmissionStatus('error');
     }
   };
   
 
   
+ // Check if student is logged in
+ if (!studentId) {
+  return <div className="voting-page">Log in to Vote</div>;
+}
 
-  // Render the voting page components
+// Check if student has voted
+
+if (hasVoted) {
   return (
     <div className="voting-page">
-      <h1>E-vote</h1>
-      {election && (
-        <div className="election-info">
-          <h1>{election.electionTitle}</h1>
-          <CountdownTimer timeRemaining={timer} />
-        </div>
-      )}
-
-      {election && election.positions.map((position) => (
-        <div key={position._id} className="position">
-          <h2>{position.positionName}</h2>
-          <CandidateList
-           positionId={position._id}
-           candidates={position.candidates}
-           selectedCandidate={selectedCandidates[position._id]}
-           onSelectCandidate={(positionId, candidateId) =>
-             handleSelectCandidate(positionId, candidateId)
-            }
-          />
-        </div>
-      ))}
-
-      <button onClick={handleSubmitVotes}>
-        Submit
-      </button>
+      <h1>You already have voted in this election: {election.electionTitle}</h1>
     </div>
   );
+}
 
+// Render candidate list or voting form
+return (
+  <div className="voting-page">
+    <h1>E-vote</h1>
+    {election && (
+      <div className="election-info">
+        <h1>{election.electionTitle}</h1>
+        <CountdownTimer timeRemaining={timer} />
+      </div>
+    )}
+     {voteSubmissionStatus === 'success' && (
+      <p>Vote Submission Successful!</p>
+    )}
+
+    {voteSubmissionStatus === 'error' && (
+      <p>Failed to submit vote. Please try again later.</p>
+    )}
+
+{voteSubmissionStatus !== 'success' && election && !hasVoted && (
+      <div>
+        {election.positions.map((position) => (
+          <div key={position._id} className="position">
+            <h2>{position.positionName}</h2>
+            <CandidateList
+              positionId={position._id}
+              candidates={position.candidates}
+              selectedCandidate={selectedCandidates[position._id]}
+              onSelectCandidate={(positionId, candidateId) =>
+                handleSelectCandidate(positionId, candidateId)
+              }
+            />
+          </div>
+        ))}
+        <button onClick={handleSubmitVotes}>
+          Submit
+        </button>
+      </div>
+    )}
+  </div>
+);
 };
+
 export default VotingPage;
