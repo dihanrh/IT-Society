@@ -2,17 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
 
-const CountdownTimer = ({ timeRemaining }) => {
-  // Calculate hours, minutes, and seconds from timeRemaining
-  const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+const CountdownTimer = ({ timeRemaining, startTime }) => {
+  if (startTime > new Date().getTime()) {
+    
+    // Start time is in the future, show the message
+    const timeDiff = startTime - new Date().getTime();
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-  return (
-    <div>
-      Time Remaining: {hours}h {minutes}m {seconds}s
-    </div>
-  );
+    return (
+      <div>
+        Voting will be started at:  {days}d {hours}h {minutes}m {seconds}s
+      </div>
+    );
+  } else {
+    // Start time is now or in the past, show the countdown
+    const days = Math.floor((timeRemaining % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+    return (
+      <div>
+        Time Remaining: {days}d {hours}h {minutes}m {seconds}s
+      </div>
+    );
+  }
 };
 
 const CandidateList = ({ positionId, candidates, selectedCandidate, onSelectCandidate }) => (
@@ -88,7 +105,7 @@ const sampleData = {
       ],
     },
   ],
-  endTime: new Date('2023-08-19T18:00:00Z').toISOString(), // Replace with actual end time
+  //endTime: new Date('2023-08-19T18:00:00Z').toISOString(), // Replace with actual end time
 };
 
 
@@ -105,11 +122,12 @@ const VotingPage = () => {
   const [timer, setTimer] = useState(null);
   const [hasVoted, setHasVoted] = useState(false);
   const [voteSubmissionStatus, setVoteSubmissionStatus] = useState(null);
+  const [isRunningStatus , SetIsRunnigStatus] = useState(null) ;
+  const [startTime, setStartTime] = useState(null) ;
+  const [endTime, setEndTime] = useState(null) ;
+  
 
-
-
-
-  console.log("Student ID :", studentId) ;
+  console.log("Student ID :",studentId ) ;
 
   useEffect(() => {
     
@@ -121,7 +139,12 @@ const VotingPage = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        setElection(data[0]); // Assuming the response is an array of elections
+    
+        setElection(data[0] ); // Assuming the response is an array of elections
+
+        if (data[0].isRunning){
+          SetIsRunnigStatus(true) ;
+        }
 
       // Check if the user's studentId is in the voterList
       if (data[0].voterList.some(voter => voter.studentId === studentId)) {
@@ -130,10 +153,14 @@ const VotingPage = () => {
        
        
         // Calculate remaining time based on endTime
-      {/*  const endTime = new Date(data[0].endTime).getTime();
+        const endTime = new Date(data[1].endTime).getTime();
+        const startTime = new Date(data[1].startTime).getTime();
         const now = new Date().getTime();
         const timeRemaining = endTime - now;
+        const duration = endTime - startTime ;
         setTimer(timeRemaining); // Initialize the countdown timer
+        setStartTime(startTime);
+        setEndTime(endTime);
          // Update the timer every second
          const intervalId = setInterval(() => {
           setTimer(prevTime => Math.max(0, prevTime - 1000));
@@ -141,7 +168,7 @@ const VotingPage = () => {
 
         // Clear the interval when the component unmounts
        
-      return () => clearInterval(intervalId); */}
+      return () => clearInterval(intervalId);
 
       } catch (error) {
         console.error('Error fetching election data:', error);
@@ -157,7 +184,7 @@ const VotingPage = () => {
   
 
   
-  console.log("election : ", hasVoted);
+
   
 
   // Function to handle radio button selection
@@ -208,6 +235,26 @@ const VotingPage = () => {
  if (!studentId) {
   return <div className="voting-page">Log in to Vote</div>;
 }
+else if(studentId && !isRunningStatus)
+{
+  return <div><h1> No Current Election or Time Over</h1></div>
+}
+
+if(startTime > new Date().getTime())
+{
+  return  <div className="election-info">
+  <h1>{election.electionTitle}</h1>
+  <CountdownTimer timeRemaining={timer} startTime={startTime} />
+</div>
+}
+
+if(endTime < new Date().getTime())
+{
+  return  <div className="election-info">
+  <h1>Time Over : {election.electionTitle}</h1>
+</div>
+}
+
 
 // Check if student has voted
 
@@ -226,7 +273,7 @@ return (
     {election && (
       <div className="election-info">
         <h1>{election.electionTitle}</h1>
-        <CountdownTimer timeRemaining={timer} />
+        <CountdownTimer timeRemaining={timer} startTime={startTime} />
       </div>
     )}
      {voteSubmissionStatus === 'success' && (

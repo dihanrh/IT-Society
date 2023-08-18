@@ -22,7 +22,6 @@ const VoteElectionSchema = new mongoose.Schema({
   ],
   startTime: Date,
   endTime: Date,
-  votingDuration: String,
   isRunning: Boolean,
   voterList: [{ studentId: String }],
 });

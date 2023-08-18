@@ -20,7 +20,6 @@ const CreateElection = () => {
     positions: [],
     startTime: new Date(),
     endTime: new Date(),
-    votingDuration: "1 hour",
     isRunning: true,
     voterList :[],
   });

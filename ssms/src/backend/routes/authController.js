@@ -5,6 +5,12 @@ const Election = require('../models/Election');
 const VoteElection = require('../models/VoteElection') ;
 const router = express.Router();
 const mongoose = require('mongoose');
+const multer = require('multer');
+
+
+// Set up storage for uploaded files
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Route for user registration
 router.post('/registration', async (req, res) => {
