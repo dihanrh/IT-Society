@@ -2,20 +2,143 @@
 /* style */
 
 .header {
-  background-color: #333;
+  font-family: "Century Gothic", serif;
+  backdrop-filter: blur(10px);
+  background-image: url('./assets/homebg.jpg'); 
+  background-size: cover; 
+  background-repeat: no-repeat; 
   color: #fff;
-  padding: 20px;
+  padding: 15px;
   min-width: 100%; 
   text-align: center;
+    /* Overlay */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); 
+      backdrop-filter: blur(13px); 
+      z-index: -1; 
+    }
   
 }
 
+.home-body-container {
+  padding: 330px;
+  min-width: 1200px; /* Set a maximum width for the content */
+  margin: 0 auto; /* Center the content horizontally */
+  backdrop-filter: blur(10px);
+  background-image: url('./assets/homebg.jpg'); /* Use the actual path to your image */
+  background-size: cover; /* Adjust the background size to cover the container */
+  background-repeat: no-repeat; /* Prevent background repetition */
+  background-position: center center; /* Center the background image */
+   /* Overlay */
+   &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+    backdrop-filter: blur(4px); /* Adjust the blur amount as needed */
+    z-index: -1; /* Place the overlay below other content */
+  }
+  
+}
+
+/* Apply responsive styling using media queries */
+@media screen and (max-width: 768px) {
+  .home-body-container {
+    padding: 10px;
+  }
+}
+
 nav {
-  background-color: #555;
+  background-color: #002222;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   padding: 20px;
   min-width: 100%;
   
 }
+.newsLine {
+  font-family: 'Century Gothic', sans-serif; /* Replace with the actual formal font */
+  font-size: 20px;
+  line-height: 1.1;
+}
+.buttonG {
+  display: inline-block;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 25px;
+  background-color: #002222;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+.buttonG:hover {
+  background-color: #006060;
+}
+
+
+
+
+.news{
+  color: #fff;
+}
+
+
+
+.registrationForm {
+  
+  width: 400px;
+  padding: 25px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  margin: 0 auto;
+  text-align: left;
+  
+}
+
+.registrationForm label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-family: "Century Gothic", sans-serif; 
+}
+
+.registrationForm input,
+.registrationForm select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: "Century Gothic", sans-serif; 
+}
+
+.registrationForm button {
+  background-color: #002222;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  
+  
+}
+.registrationForm button:hover {
+  background-color: #00aeae;
+}
+
 
 ul {
  
@@ -44,14 +167,12 @@ a:hover {
   background-color: #777;
 }
 body {
-  margin: 100;
-  padding: 100;
+
   font-family: Arial, sans-serif;
 }
 
 main {
-  margin: 100;
-  padding: 100;
+ 
   font-family: Arial, sans-serif;
 }
 
@@ -67,7 +188,7 @@ h2 {
 }
 
 footer {
-  background-color: #333;
+  background-color: #001718;
   color: #fff;
   text-align: center;
   padding: 20px;
@@ -198,3 +319,4 @@ label {
   display: block;
   margin-bottom: 5px;
 }
+

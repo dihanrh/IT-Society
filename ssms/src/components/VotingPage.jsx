@@ -153,8 +153,8 @@ const VotingPage = () => {
        
        
         // Calculate remaining time based on endTime
-        const endTime = new Date(data[1].endTime).getTime();
-        const startTime = new Date(data[1].startTime).getTime();
+        const endTime = new Date(data[0].endTime).getTime();
+        const startTime = new Date(data[0].startTime).getTime();
         const now = new Date().getTime();
         const timeRemaining = endTime - now;
         const duration = endTime - startTime ;

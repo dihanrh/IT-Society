@@ -61,15 +61,13 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
   
 
   return (
-    <div className="login-bg">
-      <div className="login-box">
-        <div className="login-logo">
-          <div className="logo"></div>
-        </div>
-        <div className="login-box1">
+    
+      
+        
+        <div className='registrationForm'>
           <h2>Login Here</h2>
           <form onSubmit={handleLogin}>
-            <div className="login-box2">
+            <div>
               <p> User ID </p>
               <input
                 type="text"
@@ -87,14 +85,14 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
                 required
               />
             </div>
-            <div className="submit-button">
+            <div>
               <button type="submit">Login</button>
               <p>Forget password?</p>
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      
+    
   );
 };
 

@@ -61,7 +61,7 @@ const CreateElection = () => {
 
   const addCandidate = (positionIndex) => {
     const updatedPositions = [...electionDetails.positions];
-    if (updatedPositions[positionIndex].amountOfCandidates < 3) {
+    if (updatedPositions[positionIndex].amountOfCandidates < 100) {
       updatedPositions[positionIndex].amountOfCandidates += 1;
       updatedPositions[positionIndex].candidates.push({voteCounter:0,});
       setElectionDetails((prevDetails) => ({
@@ -233,7 +233,7 @@ const CreateElection = () => {
             </button>
           </div>
         ))}
-        {electionDetails.amountOfPosition < 3 && (
+        {electionDetails.amountOfPosition < 50 && (
           <button type="button" onClick={addPosition}>
             Add Position
           </button>
@@ -280,10 +280,6 @@ const CreateElectionDropdown = () => {
 
 const AdminDashboard = () => {
   
-
-   
-
-
 
   return (
     <div>
