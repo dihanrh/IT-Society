@@ -19,11 +19,20 @@ const StudentDashboard = () => {
 
     <Link
       to={{
-        pathname: '/votingPage', // Adjust the pathname as per your setup
+        pathname: '/votingPage', 
         search: `?studentId=${studentId}`,
       }}
     >
       Go to Voting Page
+    </Link>
+
+    <Link
+      to={{
+        pathname: '/fileSharing', 
+        search: `?studentId=${studentId}`,
+      }}
+    >
+      File Sharing
     </Link>
       
       </div>

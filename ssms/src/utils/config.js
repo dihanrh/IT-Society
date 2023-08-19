@@ -12,6 +12,9 @@ const API_ENDPOINTS = {
   ACTIVE :"/active" ,
   COURSE :"/course",
   ROUTINE:"/routine",
+  FILE:"/file",
+  SENT:"/sent",
+  RECEIVED:"/received",
  
 };
 

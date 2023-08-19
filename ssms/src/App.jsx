@@ -20,6 +20,8 @@ import AddCourseForm from "./components/AddCourseMentoring";
 import MentoringClassList from "./components/MentoringClassList";
 import ClassRoutine from "./components/ClassRoutine";
 import Wings from "./components/Wings";
+import FileSharingForm from "./components/FileSharing";
+
 
 
 
@@ -56,7 +58,8 @@ function App() {
             <Route path="/mentoringClassList" element = {<MentoringClassList/>} />
             <Route path="/classRoutine" element  = {<ClassRoutine/>} />
             <Route path="/wings" element = {<Wings/>} />
-           
+            <Route path="/fileSharing" element = {<FileSharingForm/>} /> 
+            
 
             
             // for admin login

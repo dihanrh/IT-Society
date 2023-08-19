@@ -4,9 +4,11 @@ const Registration = require('../models/registration');
 const Election = require('../models/Election');
 const VoteElection = require('../models/VoteElection') ;
 const Course = require("../models/Course");
+const FileShare = require('../models/FileShare');
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
+
 
 
 // Set up storage for uploaded files
@@ -316,6 +318,51 @@ router.get('/routine/:courseName', async (req, res) => {
 });
 
 
+
+// POST route to add a file sharing entry
+router.post('/file', async (req, res) => {
+  const { senderId, receiverId, files } = req.body;
+
+  try {
+    const sendingDate = new Date();
+    const fileShareEntry = new FileShare({
+      senderId,
+      receiverId,
+      files,
+      sendingDate,
+    });
+
+    const savedEntry = await fileShareEntry.save();
+    res.status(201).json(savedEntry);
+  } catch (error) {
+    console.error('Error saving file sharing entry:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Get sent files for a specific senderId
+router.get('/sent', async (req, res) => {
+  const senderId = req.query.senderId;
+  try {
+    const sentFiles = await FileShare.find({ senderId });
+    res.json(sentFiles);
+  } catch (error) {
+    console.error('Error fetching sent files:', error);
+    res.status(500).json({ message: 'Error fetching sent files' });
+  }
+});
+
+// Get received files for a specific receiverId
+router.get('/received', async (req, res) => {
+  const receiverId = req.query.receiverId;
+  try {
+    const receivedFiles = await FileShare.find({ receiverId });
+    res.json(receivedFiles);
+  } catch (error) {
+    console.error('Error fetching received files:', error);
+    res.status(500).json({ message: 'Error fetching received files' });
+  }
+});
 
 
 
