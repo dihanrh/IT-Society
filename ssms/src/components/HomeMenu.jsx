@@ -36,7 +36,7 @@ const HomeMenu = ({ isAdminLoggedIn,isStudentLoggedIn }) => {
           {isStudentLoggedIn && (
             <>
               <li>
-                <Link to="/votingpage">Vote</Link>
+                <Link to="/electionResult">Election Result</Link>
               </li>
               <li>
                 <Link to="/wings">Wings</Link>

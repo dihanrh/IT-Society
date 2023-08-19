@@ -15,6 +15,7 @@ import StudentDashboard from "./components/StudentDashboard";
 import VotingPage  from "./components/VotingPage";
 import Test from "./components/test";
 import CurrentElections from "./components/CurrentElections";
+import ElectionResult from "./components/ElectionResult";
 
 
 
@@ -46,6 +47,7 @@ function App() {
             <Route path="/votingpage" element={<VotingPage/>}/>
             <Route path="/test" element={<Test/>}/>
             <Route path="/currentElections" element = {<CurrentElections/>} />
+            <Route path="/electionResult" element = {<ElectionResult />} /> 
            
 
             

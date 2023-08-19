@@ -197,6 +197,55 @@ router.put('/vote/:electionId', async (req, res) => {
   }
 });
 
+// PUT route to update the isRunning status of a vote election
+router.put('/result/:electionId', async (req, res) => {
+  console.log("publish result") ;
+
+  const { electionId } = req.params;
+  const { isRunning } = req.body;
+
+  try {
+    const updatedElection = await VoteElection.findByIdAndUpdate(
+      electionId,
+      { $set: { isRunning } },
+      { new: true }
+    );
+
+    if (!updatedElection) {
+      return res.status(404).json({ message: 'Election not found' });
+    }
+
+    return res.status(200).json(updatedElection);
+  } catch (error) {
+    console.error('Error updating election:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+// PUT route to Active the isRunning status of a vote election
+router.put('/active/:electionId', async (req, res) => {
+  console.log("Active result") ;
+
+  const { electionId } = req.params;
+  const { isRunning } = req.body;
+
+  try {
+    const updatedElection = await VoteElection.findByIdAndUpdate(
+      electionId,
+      { $set: { isRunning } },
+      { new: true }
+    );
+
+    if (!updatedElection) {
+      return res.status(404).json({ message: 'Election not found' });
+    }
+
+    return res.status(200).json(updatedElection);
+  } catch (error) {
+    console.error('Error updating election:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
 module.exports = router;
