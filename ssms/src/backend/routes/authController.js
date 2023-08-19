@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const Registration = require('../models/registration');
 const Election = require('../models/Election');
 const VoteElection = require('../models/VoteElection') ;
+const Course = require("../models/Course");
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -245,6 +246,76 @@ router.put('/active/:electionId', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
+// Route to add a new course
+router.post("/course", async (req, res) => {
+  try {
+    const {
+      courseName,
+      courseCode,
+      dateTime,
+      roomNumber,
+      mentorName,
+      mentorPhoneNumber,
+    } = req.body;
+
+    const newCourse = new Course({
+      courseName,
+      courseCode,
+      dateTime,
+      roomNumber,
+      mentorName,
+      mentorPhoneNumber,
+    });
+
+    const savedCourse = await newCourse.save();
+    res.status(201).json(savedCourse);
+  } catch (error) {
+    console.error("Error adding course:", error);
+    res.status(500).json({ error: "Failed to add course" });
+  }
+});
+
+
+
+// GET endpoint to fetch mentoring class schedule data
+router.get("/course", async (req, res) => {
+  try {
+    const mentoringClasses = await Course.find();
+    res.json(mentoringClasses);
+  } catch (error) {
+    console.error("Error fetching mentoring classes:", error);
+    res.status(500).json({ error: "Failed to fetch mentoring classes" });
+  }
+});
+
+// GET route to fetch course routine details by course name
+router.get('/routine/:courseName', async (req, res) => {
+  const courseName = req.params.courseName;
+
+  try {
+    const course = await Course.findOne({ courseName });
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    // Return the course routine details
+    res.status(200).json({
+      courseName: course.courseName,
+      courseCode: course.courseCode,
+      dateTime: course.dateTime,
+      roomNumber: course.roomNumber,
+      mentorName: course.mentorName,
+      mentorPhoneNumber: course.mentorPhoneNumber,
+    });
+  } catch (error) {
+    console.error('Error fetching course routine:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 
 
 

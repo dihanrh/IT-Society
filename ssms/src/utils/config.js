@@ -10,7 +10,9 @@ const API_ENDPOINTS = {
   VOTER: "/voter",
   RESULT :"/result",
   ACTIVE :"/active" ,
-  // CANDIDATES :"",
+  COURSE :"/course",
+  ROUTINE:"/routine",
+ 
 };
 
 export { API_BASE_URL, API_ENDPOINTS };

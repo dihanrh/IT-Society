@@ -296,11 +296,8 @@ const AdminDashboard = () => {
         <li className="currentElections">
           <Link to="/currentElections">Current Elections</Link>
         </li>
-        <li className="disableEVoting">
-          <Link to="/disableEVoting">Disable E-Voting</Link>
-        </li>
-        <li className="publishResult">
-          <Link to="/publishResult">Publish Result</Link>
+        <li className="currentElections">
+          <Link to="/addCourse">Mentoring Class</Link>
         </li>
       </ul>
 

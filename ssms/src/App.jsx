@@ -16,6 +16,10 @@ import VotingPage  from "./components/VotingPage";
 import Test from "./components/test";
 import CurrentElections from "./components/CurrentElections";
 import ElectionResult from "./components/ElectionResult";
+import AddCourseForm from "./components/AddCourseMentoring";
+import MentoringClassList from "./components/MentoringClassList";
+import ClassRoutine from "./components/ClassRoutine";
+import Wings from "./components/Wings";
 
 
 
@@ -48,6 +52,10 @@ function App() {
             <Route path="/test" element={<Test/>}/>
             <Route path="/currentElections" element = {<CurrentElections/>} />
             <Route path="/electionResult" element = {<ElectionResult />} /> 
+            <Route path="/addCourse" element = {<AddCourseForm/>} />
+            <Route path="/mentoringClassList" element = {<MentoringClassList/>} />
+            <Route path="/classRoutine" element  = {<ClassRoutine/>} />
+            <Route path="/wings" element = {<Wings/>} />
            
 
             
