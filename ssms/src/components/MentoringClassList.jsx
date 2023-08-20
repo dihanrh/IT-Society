@@ -23,33 +23,36 @@ const MentoringClassList = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Mentoring Class List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Course Name</th>
-            <th>Course Code</th>
-            <th>Date and Time</th>
-            <th>Room Number</th>
-            <th>Mentor Name</th>
-            <th>Mentor Phone Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mentoringClasses.map((mentoringClass) => (
-            <tr key={mentoringClass._id}>
-              <td>{mentoringClass.courseName}</td>
-              <td>{mentoringClass.courseCode}</td>
-              <td>{mentoringClass.dateTime}</td>
-              <td>{mentoringClass.roomNumber}</td>
-              <td>{mentoringClass.mentorName}</td>
-              <td>{mentoringClass.mentorPhoneNumber}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+   <>
+   <h2>Mentoring Class List</h2>
+    <div >
+    <table className="mentoring-table">
+  <thead>
+    <tr>
+      <th>Course Name</th>
+      <th>Course Code</th>
+      <th>Date and Time</th>
+      <th>Room Number</th>
+      <th>Mentor Name</th>
+      <th>Mentor Phone Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    {mentoringClasses.map((mentoringClass, index) => (
+      <tr key={mentoringClass._id} className={index % 2 === 0 ? 'even' : 'odd'}>
+        <td>{mentoringClass.courseName}</td>
+        <td>{mentoringClass.courseCode}</td>
+        <td>{mentoringClass.dateTime}</td>
+        <td>{mentoringClass.roomNumber}</td>
+        <td>{mentoringClass.mentorName}</td>
+        <td>{mentoringClass.mentorPhoneNumber}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
     </div>
+   </>
   );
 };
 

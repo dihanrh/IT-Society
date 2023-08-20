@@ -132,7 +132,7 @@ const CountdownTimer = ({ timeRemaining }) => {
     };
   
     return (
-      <div>
+      <div className="ThisForm">
         <h1>Current Election Details</h1>
         {currentElection && (
           <div>

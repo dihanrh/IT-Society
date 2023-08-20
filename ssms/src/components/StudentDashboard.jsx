@@ -15,7 +15,7 @@ const StudentDashboard = () => {
 
   return (
    <>
-    <div>
+    <div className="dashboard-button">
 
     <Link
       to={{
@@ -36,7 +36,7 @@ const StudentDashboard = () => {
     </Link>
       
       </div>
-      <div>
+      <div className='file'>
         <h2>Student Dashboard</h2>
         <p>Name: {name}</p>
         <p>Student ID: {studentId}</p>

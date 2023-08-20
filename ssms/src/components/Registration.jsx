@@ -51,7 +51,7 @@ const Registration = () => {
 
   return (
     <>
-      <div className='registrationForm' >
+      <div className='ThisForm' >
         {isSubmiOK == "ok" && (
           <div>
             <h1>Registration has been Submitted.</h1>

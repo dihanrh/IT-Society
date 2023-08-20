@@ -64,7 +64,8 @@ const ClassRoutine = () => {
   };
 
   return (
-    <div>
+  <>
+    <div className='ThisForm'>
       <h1>Mentoring Class Routine</h1>
       <div>
         <label>Number of Courses: </label>
@@ -86,11 +87,17 @@ const ClassRoutine = () => {
           <button onClick={handleShowRoutine}>Show Routine</button>
         </div>
       )}
+
+      </div>
+      <div>
       {courseDetails && (
+       
         <div>
-          <h2>Course Details</h2>
+           <h2>Course Details</h2>
+          <div className='file-sharingA'>
+          
           {courseDetails.map((course, index) => (
-            <div key={index}>
+            <div key={index} className='fileA'>
               <h3>Course {index + 1}</h3>
               <p>Course Name: {course.courseName}</p>
               <p>Course Code: {course.courseCode}</p>
@@ -101,8 +108,10 @@ const ClassRoutine = () => {
             </div>
           ))}
         </div>
+        </div>
       )}
     </div>
+  </>
   );
 };
 

@@ -64,7 +64,7 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
     
       
         
-        <div className='registrationForm'>
+        <div className='ThisForm'>
           <h2>Login Here</h2>
           <form onSubmit={handleLogin}>
             <div>
@@ -87,7 +87,7 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
             </div>
             <div>
               <button type="submit">Login</button>
-              <p>Forget password?</p>
+              <p>Forgot password?</p>
             </div>
           </form>
         </div>

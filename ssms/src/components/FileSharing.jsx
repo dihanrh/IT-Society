@@ -47,30 +47,32 @@ const FileSharingPage = () => {
   }, [studentId]);
 
   return (
-    <div>
-      <div>
+    <div className="file-sharing">
+      <div className="sent-files" >
         <h2>Sent Files</h2>
-        <ul>
+        
           {sentFiles.map((file) => (
-            <li key={file._id}>
+            <div key={file._id} className='file'>
               <p>File Name: {file.files[0].fileName}</p>
               <p>Received by: {file.receiverId}</p>
               <p>Date: {new Date(file.sendingDate).toLocaleString()}</p>
-            </li>
+              <button className='buttonG'>Download</button>
+            </div>
           ))}
-        </ul>
+        
       </div>
-      <div>
+      <div className="received-files">
         <h2>Received Files</h2>
-        <ul>
+      
           {receivedFiles.map((file) => (
-            <li key={file._id}>
+            <div key={file._id} className='file'>
               <p>File Name: {file.files[0].fileName}</p>
               <p>Sender: {file.senderId}</p>
               <p>Date: {new Date(file.sendingDate).toLocaleString()}</p>
-            </li>
+              <button className='buttonG'>Download</button>
+            </div>
           ))}
-        </ul>
+       
       </div>
     </div>
   );
@@ -128,32 +130,39 @@ const FileSharingForm = () => {
   };
 
   return (
+
+
+    <>
     <div>
       <FileSharingPage/>
-
-      <h4>Send File</h4>
-      <input
-        type="text"
-        placeholder="Receiver Student ID"
-        value={receiverId}
-        onChange={(e) => setReceiverId(e.target.value)}
-      />
-      <div>
-        <input
-          type="text"
-          placeholder="File Name"
-          value={fileNameInput}
-          onChange={(e) => setFileNameInput(e.target.value)}
-        />
-        <button onClick={handleAddFile}>Add File</button>
-      </div>
-      <ul>
-        {fileNames.map((name, index) => (
-          <li key={index}>{name}</li>
-        ))}
-      </ul>
-      <button onClick={handleSendFiles}>Send</button>
     </div>
+  
+  <div className='ThisForm'>
+     
+     <h4>Send File</h4>
+     <input
+       type="text"
+       placeholder="Receiver Student ID"
+       value={receiverId}
+       onChange={(e) => setReceiverId(e.target.value)}
+     />
+     <div>
+       <input
+         type="text"
+         placeholder="File Name"
+         value={fileNameInput}
+         onChange={(e) => setFileNameInput(e.target.value)}
+       />
+       <button onClick={handleAddFile}>Add File</button>
+     </div>
+     <ul>
+       {fileNames.map((name, index) => (
+         <li key={index}>{name}</li>
+       ))}
+     </ul>
+     <button onClick={handleSendFiles}>Send</button>
+   </div>    
+    </>
   );
 };
 

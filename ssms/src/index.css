@@ -86,8 +86,27 @@ nav {
 
 .buttonG:hover {
   background-color: #006060;
+
+}
+.buttonVIP {
+  display: inline-block;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 20px;
+  background-color: #002222;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-left: 100px;
+  transition: background-color 0.3s;
 }
 
+
+.buttonVIP:hover {
+  background-color: #9b0000;
+
+}
 
 
 
@@ -97,7 +116,7 @@ nav {
 
 
 
-.registrationForm {
+.ThisForm {
   
   width: 400px;
   padding: 25px;
@@ -105,18 +124,25 @@ nav {
   background-color: #f2f2f2;
   margin: 0 auto;
   text-align: left;
+  margin-top: 50px;
+  margin-bottom: 50px;
   
 }
 
-.registrationForm label {
+.ThisForm label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
   font-family: "Century Gothic", sans-serif; 
 }
+.ThisForm p {
+  display: block;
+  font-weight: bold;
+  font-family: "Century Gothic", sans-serif; 
+}
 
-.registrationForm input,
-.registrationForm select {
+.ThisForm input,
+.ThisForm select {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
@@ -125,19 +151,206 @@ nav {
   font-family: "Century Gothic", sans-serif; 
 }
 
-.registrationForm button {
+.ThisForm button {
   background-color: #002222;
   color: #fff;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 10px;
+ 
   
   
 }
-.registrationForm button:hover {
+.ThisForm button:hover {
   background-color: #00aeae;
 }
+
+.dashboard-button {
+  display: inline-block;
+  padding: 18px 25px;
+  background-color: #002222;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.dashboard-button:hover {
+  background-color: #007676;
+}
+
+
+
+.dashboard-links {
+
+}
+.election-info {
+  margin-bottom: 20px;
+}
+.voting-section {
+  margin-top: 20px; 
+}
+.candidate-section {
+  margin-top: 30px;
+}
+.position {
+  margin-bottom: 20px; 
+  padding: 30px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px;
+}
+
+.candidate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px; 
+}
+
+.candidate {
+  display: flex;
+  gap: 10px; 
+  align-items: center;
+}
+
+.candidate-details {
+  display: flex;
+  background-color: #f4f4f4;
+  padding: 30px;
+  border-radius: 40px;
+  width: 50%;
+  font-family: "Century Gothic", sans-serif;
+  margin-left: 22% ;
+}
+
+
+.candidate-info {
+  flex: 1;
+}
+.candidate-list label{
+  display: block;
+  font-weight: bold;
+  font-family: "Century Gothic", sans-serif;
+  
+}
+
+
+.file-sharing {
+  display: flex;
+  justify-content: space-between;
+}
+.file-sharingA {
+  display: flex;
+ text-align: left;
+ justify-content: center;
+ padding-bottom: 100px;
+}
+
+.sent-files,
+.received-files {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 10px;
+  background-color: #f4f4f4;
+}
+
+.file {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.fileA{
+  
+  margin: 10px 5px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+ 
+}
+
+.mentoring-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+.mentoring-table th,
+.mentoring-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.mentoring-table th {
+  background-color: #f2f2f2;
+}
+
+.mentoring-table tbody tr.even {
+  background-color: #f9f9f9;
+}
+
+.mentoring-table tbody tr.odd {
+  background-color: #fff;
+}
+
+
+.add-course-form {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-list {
+  list-style: none;
+  padding: 0;
+}
+
+.form-list li {
+  margin-bottom: 15px;
+}
+
+.form-list label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-list input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.buttonG {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttonG:hover {
+  background-color: #45a049;
+}
+
 
 
 ul {
@@ -146,10 +359,16 @@ ul {
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin: 0; /* Remove the default margin */
-  padding:0; /* Remove the default padding */
+  margin: 0; 
+  padding:0; 
   
 }
+
+
+
+
+
+
 
 li {
   display: inline;
@@ -159,8 +378,8 @@ li {
 a {
   color: #ffffff;
   text-decoration: none;
-  padding: 10px 20px; /* Add padding to create space around the menu button */
-  border-radius: 20px; /* Add border-radius to make the menu button round */
+  padding: 10px 20px; 
+  border-radius: 20px; 
 }
 
 a:hover {

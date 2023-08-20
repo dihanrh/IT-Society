@@ -50,35 +50,38 @@ const ApproveUsers = () => {
 
   return (
     <>
-      <div>
-        <h2>Approved Users</h2>
+      <h2>Approved Users</h2>
+      <div className='file-sharingA'>
       
-        <ul>
+      
+        <div>
           {approvedRegistrations.map(reg => (
-            <li key={reg.id}>
+            <div key={reg.id} className='file'>
               <p>Name: {reg.name}</p>
               <p>Student ID: {reg.studentId}</p>
               <p>Semester: {reg.semester}</p>
               <p>Email: {reg.email}</p>
               <p>MID : {reg._id.toString()}</p>
             
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
-      <div>
-        <h2>Pending To Approve</h2>
-        <ul>
+
+      <h2>Pending To Approve</h2>
+      <div className='file-sharingA'>
+        
+        <div>
           {pendingRegistrations.map(reg => (
-            <li key={reg.id}>
+            <div key={reg.id} className='file'>
               <p>Name: {reg.name}</p>
               <p>Student ID: {reg.studentId}</p>
               <p>Semester: {reg.semester}</p>
               <p>Email: {reg.email}</p>
               <button onClick={() => handleApproval(reg._id.toString())}>Approve</button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </>
   );

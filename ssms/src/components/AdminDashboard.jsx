@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 import CandidateForm from "./CandidateForm";
 import Test from "./test";
 
-
 import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
-
 
 // CreateElection Component
 
@@ -21,7 +19,7 @@ const CreateElection = () => {
     startTime: new Date(),
     endTime: new Date(),
     isRunning: true,
-    voterList :[],
+    voterList: [],
   });
 
   const handleElectionChange = (field, value) => {
@@ -41,7 +39,12 @@ const CreateElection = () => {
     }));
   };
 
-  const handleCandidateChange = (positionIndex, candidateIndex, field, value) => {
+  const handleCandidateChange = (
+    positionIndex,
+    candidateIndex,
+    field,
+    value
+  ) => {
     const updatedPositions = [...electionDetails.positions];
     updatedPositions[positionIndex].candidates[candidateIndex][field] = value;
 
@@ -55,7 +58,10 @@ const CreateElection = () => {
     setElectionDetails((prevDetails) => ({
       ...prevDetails,
       amountOfPosition: prevDetails.amountOfPosition + 1,
-      positions: [...prevDetails.positions, { positionName: "", amountOfCandidates: 0, candidates: [] }],
+      positions: [
+        ...prevDetails.positions,
+        { positionName: "", amountOfCandidates: 0, candidates: [] },
+      ],
     }));
   };
 
@@ -63,7 +69,7 @@ const CreateElection = () => {
     const updatedPositions = [...electionDetails.positions];
     if (updatedPositions[positionIndex].amountOfCandidates < 100) {
       updatedPositions[positionIndex].amountOfCandidates += 1;
-      updatedPositions[positionIndex].candidates.push({voteCounter:0,});
+      updatedPositions[positionIndex].candidates.push({ voteCounter: 0 });
       setElectionDetails((prevDetails) => ({
         ...prevDetails,
         positions: updatedPositions,
@@ -87,10 +93,10 @@ const CreateElection = () => {
 
       if (response.ok) {
         // alert("Election details stored successfully!");
-        setproccedElection('success') ;
+        setproccedElection("success");
       } else {
         console.error("Failed to store election details");
-        setproccedElection('error') ;
+        setproccedElection("error");
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -98,154 +104,218 @@ const CreateElection = () => {
   };
 
   return (
-    <div>
-      {proccedElection == 'success'&& (
-        <div><h1>Election has been created successfully</h1>
-        
-        </div>
-      )}
-
-{proccedElection == null && (
-        <div>
-           <h1>Vote Election Form</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Election Title:</label>
-          <input
-            type="text"
-            value={electionDetails.electionTitle}
-            onChange={(e) => handleElectionChange("electionTitle", e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Amount of Positions:</label>
-          <input
-            type="number"
-            value={electionDetails.amountOfPosition}
-            onChange={(e) => handleElectionChange("amountOfPosition", e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Starting Time:</label>
-          <input
-            type="datetime-local"
-            value={electionDetails.startTime}
-            onChange={(e) => handleElectionChange("startTime", e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Ending Time:</label>
-          <input
-            type="datetime-local"
-            value={electionDetails.endTime}
-            onChange={(e) => handleElectionChange("endTime", e.target.value)}
-          />
-        </div>
-
-        <h2>Positions</h2>
-        {electionDetails.positions.map((position, positionIndex) => (
-          <div key={positionIndex}>
-            <h3>Position {positionIndex + 1}</h3>
-            <div>
-              <label>Position Name:</label>
-              <input
-                type="text"
-                value={position.positionName}
-                onChange={(e) => handlePositionChange(positionIndex, "positionName", e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Amount of Candidates:</label>
-              <input
-                type="number"
-                value={position.amountOfCandidates}
-                onChange={(e) => handlePositionChange(positionIndex, "amountOfCandidates", e.target.value)}
-              />
-            </div>
-
-            <h4>Candidates</h4>
-            {position.candidates.map((candidate, candidateIndex) => (
-              <div key={candidateIndex}>
-                <h5>Candidate {candidateIndex + 1}</h5>
-                <div>
-                  <label>Name:</label>
-                  <input
-                    type="text"
-                    value={candidate.name || ""}
-                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "name", e.target.value)}
-                    required
-                  />
-                </div>
-                <div>
-                  <label>ID:</label>
-                  <input
-                    type="text"
-                    value={candidate.id || ""}
-                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "id", e.target.value)}
-                    required
-                  />
-                </div>
-                <div>
-                  <label>Current Semester:</label>
-                  <input
-                    type="text"
-                    value={candidate.semester || ""}
-                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "semester", e.target.value)}
-                    required
-                  />
-                </div>
-                <div>
-                  <label>Current CGPA:</label>
-                  <input
-                    type="text"
-                    value={candidate.cgpa || ""}
-                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "cgpa", e.target.value)}
-                    required
-                  />
-                </div>
-                <div>
-                  <label>Motto:</label>
-                  <input
-                    type="text"
-                    value={candidate.motto || ""}
-                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "motto", e.target.value)}
-                    required
-                  />
-                </div>
-                <div>
-                  <label>Photo:</label>
-                  <input
-                    type="text"
-                    value={candidate.photo || ""}
-                    onChange={(e) => handleCandidateChange(positionIndex, candidateIndex, "photo", e.target.value)}
-                    required
-                  />
-                </div>
-                
-                
-                {/* Other candidate input fields */}
-              </div>
-            ))}
-            <button type="button" onClick={() => addCandidate(positionIndex)}>
-              Add Candidate
-            </button>
+    <div className="ThisForm">
+      <div>
+        {proccedElection == "success" && (
+          <div>
+            <h1>Election has been created successfully</h1>
           </div>
-        ))}
-        {electionDetails.amountOfPosition < 50 && (
-          <button type="button" onClick={addPosition}>
-            Add Position
-          </button>
         )}
-        {electionDetails.amountOfPosition >= 1 && (
-          <button type="submit">Proceed</button>
+
+        {proccedElection == null && (
+          <div>
+            <h1>Vote Election Form</h1>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Election Title:</label>
+                <input
+                  type="text"
+                  value={electionDetails.electionTitle}
+                  onChange={(e) =>
+                    handleElectionChange("electionTitle", e.target.value)
+                  }
+                  required
+                />
+              </div>
+              <div>
+                <label>Amount of Positions:</label>
+                <input
+                  type="number"
+                  value={electionDetails.amountOfPosition}
+                  onChange={(e) =>
+                    handleElectionChange("amountOfPosition", e.target.value)
+                  }
+                />
+              </div>
+              <div>
+                <label>Starting Time:</label>
+                <input
+                  type="datetime-local"
+                  value={electionDetails.startTime}
+                  onChange={(e) =>
+                    handleElectionChange("startTime", e.target.value)
+                  }
+                />
+              </div>
+              <div>
+                <label>Ending Time:</label>
+                <input
+                  type="datetime-local"
+                  value={electionDetails.endTime}
+                  onChange={(e) =>
+                    handleElectionChange("endTime", e.target.value)
+                  }
+                />
+              </div>
+
+              <h2>Positions</h2>
+              {electionDetails.positions.map((position, positionIndex) => (
+                <div key={positionIndex}>
+                  <h3>Position {positionIndex + 1}</h3>
+                  <div>
+                    <label>Position Name:</label>
+                    <input
+                      type="text"
+                      value={position.positionName}
+                      onChange={(e) =>
+                        handlePositionChange(
+                          positionIndex,
+                          "positionName",
+                          e.target.value
+                        )
+                      }
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label>Amount of Candidates:</label>
+                    <input
+                      type="number"
+                      value={position.amountOfCandidates}
+                      onChange={(e) =>
+                        handlePositionChange(
+                          positionIndex,
+                          "amountOfCandidates",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
+
+                  <h4>Candidates</h4>
+                  {position.candidates.map((candidate, candidateIndex) => (
+                    <div key={candidateIndex}>
+                      <h5>Candidate {candidateIndex + 1}</h5>
+                      <div>
+                        <label>Name:</label>
+                        <input
+                          type="text"
+                          value={candidate.name || ""}
+                          onChange={(e) =>
+                            handleCandidateChange(
+                              positionIndex,
+                              candidateIndex,
+                              "name",
+                              e.target.value
+                            )
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label>ID:</label>
+                        <input
+                          type="text"
+                          value={candidate.id || ""}
+                          onChange={(e) =>
+                            handleCandidateChange(
+                              positionIndex,
+                              candidateIndex,
+                              "id",
+                              e.target.value
+                            )
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label>Current Semester:</label>
+                        <input
+                          type="text"
+                          value={candidate.semester || ""}
+                          onChange={(e) =>
+                            handleCandidateChange(
+                              positionIndex,
+                              candidateIndex,
+                              "semester",
+                              e.target.value
+                            )
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label>Current CGPA:</label>
+                        <input
+                          type="text"
+                          value={candidate.cgpa || ""}
+                          onChange={(e) =>
+                            handleCandidateChange(
+                              positionIndex,
+                              candidateIndex,
+                              "cgpa",
+                              e.target.value
+                            )
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label>Motto:</label>
+                        <input
+                          type="text"
+                          value={candidate.motto || ""}
+                          onChange={(e) =>
+                            handleCandidateChange(
+                              positionIndex,
+                              candidateIndex,
+                              "motto",
+                              e.target.value
+                            )
+                          }
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label>Photo:</label>
+                        <input
+                          type="text"
+                          value={candidate.photo || ""}
+                          onChange={(e) =>
+                            handleCandidateChange(
+                              positionIndex,
+                              candidateIndex,
+                              "photo",
+                              e.target.value
+                            )
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => addCandidate(positionIndex)}
+                  >
+                    Add Candidate
+                  </button>
+                </div>
+              ))}
+              {electionDetails.amountOfPosition < 50 && (
+                <button type="button" onClick={addPosition}>
+                  Add Position
+                </button>
+              )}
+              {electionDetails.amountOfPosition >= 1 && (
+               <div>
+                 <button type="submit">Proceed</button>
+               </div>
+              )}
+            </form>
+          </div>
         )}
-      </form>
-        
-        </div>
-      )}
-     
+      </div>
     </div>
   );
 };
@@ -262,7 +332,7 @@ const CreateElectionDropdown = () => {
   };
 
   return (
-    <div className="dropdown">
+    <div className="ThisForm">
       {/* CreateElection button */}
       <button onClick={toggleDropdown}>Create Election</button>
 
@@ -270,7 +340,7 @@ const CreateElectionDropdown = () => {
       {isDropdownOpen && (
         <ul>
           <li>
-            <CreateElection/>
+            <CreateElection />
           </li>
         </ul>
       )}
@@ -279,30 +349,31 @@ const CreateElectionDropdown = () => {
 };
 
 const AdminDashboard = () => {
-  
-
   return (
-    <div>
+    <div >
+     
+   
+     <div className="dashboard-links"> 
       <h2>Admin Dashboard</h2>
-     <div className="adminU">
+    <div>
+      <Link to="/currentElections" className="dashboard-button">
+        Current Elections
+      </Link>
+    </div>
+    <div>
+      <Link to="/addCourse" className="dashboard-button">
+        Mentoring Class
+      </Link>
+    </div>
+    <div>   <CreateElectionDropdown /></div>
+  </div>
+          
+        
 
-     </div>
-
-      <ul className="adminUl">
-        <li className="currentElections">
-          <Link to="/currentElections">Current Elections</Link>
-        </li>
-        <li className="currentElections">
-          <Link to="/addCourse">Mentoring Class</Link>
-        </li>
-      </ul>
-
-      <ul>
-        <li className="CreateElectionDropdown">
-          <CreateElectionDropdown />
-        </li>
-       
-      </ul>
+    
+        
+     
+    
     </div>
   );
 };

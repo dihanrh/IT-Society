@@ -48,80 +48,80 @@ const AddCourseForm = () => {
    <div>
     <MentoringClassList/>
    </div>
-   <div className="add-course-form">
-      <h2>Add Course</h2>
-      <form onSubmit={handleSubmit}>
-        <ul className="form-list">
-          <li>
-            <label>
-              Course Name:
-              <input
-                type="text"
-                name="courseName"
-                value={courseData.courseName}
-                onChange={handleChange}
-              />
-            </label>
-          </li>
-          <li>
-            <label>
-              Course Code:
-              <input
-                type="text"
-                name="courseCode"
-                value={courseData.courseCode}
-                onChange={handleChange}
-              />
-            </label>
-          </li>
-          <li>
-            <label>
-              Date and Time:
-              <input
-                type="datetime-local"
-                name="dateTime"
-                value={courseData.dateTime}
-                onChange={handleChange}
-              />
-            </label>
-          </li>
-          <li>
-            <label>
-              Room Number:
-              <input
-                type="text"
-                name="roomNumber"
-                value={courseData.roomNumber}
-                onChange={handleChange}
-              />
-            </label>
-          </li>
-          <li>
-            <label>
-              Mentor Name:
-              <input
-                type="text"
-                name="mentorName"
-                value={courseData.mentorName}
-                onChange={handleChange}
-              />
-            </label>
-          </li>
-          <li>
-            <label>
-              Mentor Phone Number:
-              <input
-                type="tel"
-                name="mentorPhoneNumber"
-                value={courseData.mentorPhoneNumber}
-                onChange={handleChange}
-              />
-            </label>
-          </li>
-        </ul>
-        <button type="submit">Save</button>
-      </form>
+   <div className="ThisForm">
+  <h2>Add Course</h2>
+  <form onSubmit={handleSubmit}>
+    <div className="form-group">
+      <label>
+        Course Name:
+        <input
+          type="text"
+          name="courseName"
+          value={courseData.courseName}
+          onChange={handleChange}
+        />
+      </label>
     </div>
+    <div className="form-group">
+      <label>
+        Course Code:
+        <input
+          type="text"
+          name="courseCode"
+          value={courseData.courseCode}
+          onChange={handleChange}
+        />
+      </label>
+    </div>
+    <div className="form-group">
+      <label>
+        Date and Time:
+        <input
+          type="datetime-local"
+          name="dateTime"
+          value={courseData.dateTime}
+          onChange={handleChange}
+        />
+      </label>
+    </div>
+    <div className="form-group">
+      <label>
+        Room Number:
+        <input
+          type="text"
+          name="roomNumber"
+          value={courseData.roomNumber}
+          onChange={handleChange}
+        />
+      </label>
+    </div>
+    <div className="form-group">
+      <label>
+        Mentor Name:
+        <input
+          type="text"
+          name="mentorName"
+          value={courseData.mentorName}
+          onChange={handleChange}
+        />
+      </label>
+    </div>
+    <div className="form-group">
+      <label>
+        Mentor Phone Number:
+        <input
+          type="tel"
+          name="mentorPhoneNumber"
+          value={courseData.mentorPhoneNumber}
+          onChange={handleChange}
+        />
+      </label>
+    </div>
+    <button type="submit">Save</button>
+  </form>
+</div>
+
+
    </>
   );
 };
