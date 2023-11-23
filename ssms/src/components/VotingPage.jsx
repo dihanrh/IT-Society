@@ -123,7 +123,7 @@ const sampleData = {
       ],
     },
   ],
-  //endTime: new Date('2023-08-19T18:00:00Z').toISOString(), // Replace with actual end time
+  //endTime: new Date('2023-08-19T18:00:00Z').toISOString(), // Replace
 };
 
 const VotingPage = () => {

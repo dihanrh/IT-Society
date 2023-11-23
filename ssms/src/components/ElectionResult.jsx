@@ -37,7 +37,7 @@ import { API_BASE_URL, API_ENDPOINTS } from "../utils/config";
               <p>Start Time: {currentElection.startTime}</p>
               <p>End Time: {currentElection.endTime}</p>
     
-              {currentElection.isRunning ? (
+              {!currentElection.isRunning ? (
                 <div>
                   <h3>Positions and Candidates</h3>
                   {currentElection.positions.map((position) => (

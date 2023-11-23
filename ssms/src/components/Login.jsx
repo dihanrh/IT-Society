@@ -63,7 +63,8 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
   return (
     
       
-        
+        <div className="logInBg">
+          
         <div className='ThisForm'>
           <h2>Login Here</h2>
           <form onSubmit={handleLogin}>
@@ -92,6 +93,8 @@ const Login = ({ setIsAdminLoggedIn, setIsStudentLoggedIn }) => {
           </form>
         </div>
       
+
+        </div>
     
   );
 };
