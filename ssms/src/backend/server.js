@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const authRouter = require('./routes/authController');
+const path = require ('path');
 
  // Connect to the MongoDB database -  registrationDB
  mongoose.connect('mongodb://127.0.0.1:27017/registrationDB', {
@@ -28,6 +29,12 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use('/api', authRouter);
 
+//static files
+app.use(express.static(path.join(__dirname,'./ssms/dist')))
+
+app.get("*", function(req,res){
+    res.sendFile(path.join(__dirname,'./ssms/dist/index.html'))
+});
 
 // Check for successful connection
 const db = mongoose.connection;
