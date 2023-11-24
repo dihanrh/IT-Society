@@ -127,7 +127,7 @@ To deploy this project run
 
 
 ## API Reference
-- All api is under the MongoDB data retrive.
+- All API is under the MongoDB data retrieve.
 
 ## Features
 
@@ -135,8 +135,6 @@ To deploy this project run
 
 ## User Requirement  1: Users want to vote in elections in the executive selection.
 ![image](https://github.com/dihanrh/IT-Society/assets/98779204/3cca9222-01fe-4fc0-ae3b-24a84eb38fa7)
-
-![image](https://github.com/dihanrh/IT-Society/assets/98779204/7828426d-3e88-42d9-9b9b-5acdf1983712)
 
 ## System Requirement: 
 
