@@ -16,7 +16,7 @@
 
 ## Acknowledgements
 
- - IUBAT IT Society
+ - IUBAT IT Society : https://iubat-iits.com/
 
 
 
@@ -204,13 +204,7 @@ After Selecting the course code, users will be redirected to the page Mentoring 
 Users can view and download the files by clicking the down arrow button.
 ![image](https://github.com/dihanrh/IT-Society/assets/98779204/4fd0a66a-1968-405a-8cf5-7f6a8d7693bb)
 
-
-**IDE**
-- [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=JuanBlanco.solidity)
-
-
-
- **Testing**
+**Testing**
 ![image](https://github.com/dihanrh/IT-Society/assets/98779204/7e6544e4-229c-463e-a2ea-e04d986d8ba6)
 
 
