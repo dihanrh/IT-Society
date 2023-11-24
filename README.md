@@ -211,9 +211,8 @@ Users can view and download the files by clicking the down arrow button.
 
 
  **Testing**
-![image](https://github.com/dihanrh/IT-Society/assets/98779204/c2f90bb3-9d91-4259-94ea-e51734621270)
+![image](https://github.com/dihanrh/IT-Society/assets/98779204/7e6544e4-229c-463e-a2ea-e04d986d8ba6)
 
-![image](https://github.com/dihanrh/IT-Society/assets/98779204/84cc6e0a-1388-4736-9f2c-7316deb3bc00)
 
 ## Authors
 
