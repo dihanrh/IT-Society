@@ -1,5 +1,6 @@
 # IUBAT IT Society
-![login](https://github.com/dihanrh/IT-Society/assets/98779204/6cded61a-87f0-4f97-8068-b2422d5f883d)
+![Home](https://github.com/dihanrh/IT-Society/assets/98779204/f1a694b7-bed6-4a06-ba7a-43b25772c039)
+
 
 **ITS** The system development project aims to create an integrated platform for an educational institution that facilitates various functionalities, including online voting for executive selection, individual mentoring class schedule viewing, and file sharing among specific members. The primary users of the system include students, administrators, and mentors.
 
@@ -83,7 +84,8 @@ To deploy this project run
 ## Screenshots
 ## Student
 - Home page
-![login](https://github.com/dihanrh/IT-Society/assets/98779204/c005a8b4-6580-4df2-b418-2a8965263aa7)
+![Home](https://github.com/dihanrh/IT-Society/assets/98779204/cdbf44d3-e929-45bd-a5bb-8ae82c3cc904)
+
 
 - Login
 ![login](https://github.com/dihanrh/IT-Society/assets/98779204/c6462ff6-d30b-4433-a224-4bcf46351af7)
